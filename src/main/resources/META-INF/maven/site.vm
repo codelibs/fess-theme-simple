@@ -344,13 +344,22 @@
   _gaq.push(['_trackPageview']);
   (function() {
     var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 </script>
   </head>
 
   <body>
+<div id="fb-root"></div>
+<script>
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, "script", 'facebook-jssdk'));</script>
 
     <div class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
@@ -425,6 +434,24 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <div>
 <a href="http://www.n2sm.net/recruit/product.html" target="_blank">[PR] &#x63a1;&#x7528;&#x60c5;&#x5831;&#xff1a;Fess&#x3092;&#x4e00;&#x7dd2;&#x306b;&#x958b;&#x767a;&#x3057;&#x307e;&#x305b;&#x3093;&#x304b;&#xff1f;&#x4e00;&#x7dd2;&#x306b;&#x65b0;&#x3057;&#x3044;&#x3082;&#x306e;&#x306b;&#x30c1;&#x30e3;&#x30ec;&#x30f3;&#x30b8;&#x3057;&#x305f;&#x3044;&#x65b9;&#x3092;&#x52df;&#x96c6;&#x3057;&#x3066;&#x3044;&#x307e;&#x3059;&#x3002;</a>
 </div>
+<ul class="snsboxes" style="list-style:none;">
+<li>
+<a href="https://twitter.com/share" class="twitter-share-button" 
+data-url="http://fess.codelibs.org/" data-lang="en" data-count="vertical">Tweet</a>
+</li>
+<li>
+<div class="fb-like" data-href="http://fess.codelibs.org/" data-layout="box_count" data-action="like" data-show-faces="true" data-share="false"></div>
+</li>
+<li>
+<div class="g-plusone" data-size="tall" data-href="http://fess.codelibs.org/"></div>
+</li>
+<li>
+<script type="IN/Share" data-url="http://fess.codelibs.org/" data-counter="top"></script>
+</li>
+<li>
+<a data-pocket-label="pocket" data-pocket-count="vertical" class="pocket-btn" data-lang="en"></a>
+</li>
+</ul>
 #set( $titleIdx = $title.indexOf(" - ") + 3 )##
 #set( $pageTitle= $StringUtils.substring($title, $titleIdx) )##
 <h1>$pageTitle</h1>
@@ -459,5 +486,20 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
     </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="$relativePath/js/bootstrap.min.js"></script>
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
+if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);
+}}(document,"script","twitter-wjs");</script>
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/platform.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+<script src="http://platform.linkedin.com/in.js" type="text/javascript">
+lang: en_US
+</script>
+<script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
   </body>
 </html>

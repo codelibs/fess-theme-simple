@@ -35,3 +35,13 @@ margin-bottom:5px;
 .bodyTable thead:last-child tr:last-child th:last-child,.bodyTable tbody:last-child tr:last-child td:last-child{-webkit-border-radius:0 0 4px 0;-moz-border-radius:0 0 4px 0;border-radius:0 0 4px 0;}
 .bodyTable tbody tr:nth-child(odd) td,.bodyTable tbody tr:nth-child(odd) th{background-color:#f9f9f9;}
 
+.snsboxes {
+overflow: hidden;
+}
+.snsboxes li {
+float: left;
+margin-right: 4px;
+}
+.snsboxes iframe {
+margin: 0 !important;
+}
