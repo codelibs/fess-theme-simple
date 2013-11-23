@@ -35,13 +35,49 @@ margin-bottom:5px;
 .bodyTable thead:last-child tr:last-child th:last-child,.bodyTable tbody:last-child tr:last-child td:last-child{-webkit-border-radius:0 0 4px 0;-moz-border-radius:0 0 4px 0;border-radius:0 0 4px 0;}
 .bodyTable tbody tr:nth-child(odd) td,.bodyTable tbody tr:nth-child(odd) th{background-color:#f9f9f9;}
 
-.snsboxes {
-overflow: hidden;
+.snsbtns {
+list-style-type: none;
+white-space: nowrap;
+margin: 0;
+padding: 0;
 }
-.snsboxes li {
+
+.snsbtns li {
 float: left;
-margin-right: 4px;
+white-space: nowrap;
+margin: 10px 5px 0 0;
 }
-.snsboxes iframe {
-margin: 0 !important;
+
+.snsbtns li div {
+display: inline;
+}
+.snsbtns:after {
+clear: both;
+}
+.snsbtns {
+*zoom: 1;
+}
+.snsbtns .facebook { 
+float: left; 
+margin: 0px 10px 0px 0px; 
+padding: 0px; 
+width: 60px; 
+}
+.snsbtns .twitter { 
+float: left; 
+margin: 0px 10px 0px 0px; 
+padding: 0px; 
+width: 60px; 
+}
+.snsbtns .google { 
+float: left; 
+width: 60px; 
+}
+.snsbtns .linkedin { 
+float: left; 
+width: auto; 
+}
+.snsbtns .pocket { 
+float: left; 
+width: 60px; 
 }
