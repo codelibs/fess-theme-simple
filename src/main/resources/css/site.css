@@ -40,6 +40,7 @@ list-style-type: none;
 white-space: nowrap;
 margin: 0;
 padding: 0;
+height: 30px;
 }
 
 .snsbtns li {
@@ -57,30 +58,27 @@ clear: both;
 .snsbtns {
 *zoom: 1;
 }
-.snsbtns .facebook { 
-float: left; 
-margin: 0px 10px 0px 0px; 
-padding: 0px; 
-width: 60px; 
+.snsbtns .facebook {
+float: left;
+margin: 0px 10px 0px 0px;
+padding: 0px;
+width: 80px;
 }
-.snsbtns .twitter { 
-float: left; 
-margin: 0px 10px 0px 0px; 
-padding: 0px; 
-width: 60px; 
+.snsbtns .twitter {
+float: left;
+margin: 0px 10px 0px 0px;
+padding: 0px;
+width: 80px;
 }
-.snsbtns .google { 
-float: left; 
-width: 60px; 
+.snsbtns .google {
+float: left;
+width: 80px;
 }
-.snsbtns .linkedin { 
-float: left; 
-width: auto; 
+.snsbtns .linkedin {
+float: left;
+width: auto;
 }
-.snsbtns .pocket { 
-float: left; 
-width: 60px; 
-}
-.snsbtns {
-height: 28px;
+.snsbtns .pocket {
+float: left;
+width: 80px;
 }
