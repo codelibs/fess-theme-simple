@@ -62,23 +62,31 @@ clear: both;
 float: left;
 margin: 0px 10px 0px 0px;
 padding: 0px;
-width: 80px;
+width: 70px;
+height: 20px;
+overflow: hidden;
+}
+.snsbtns .facebook .fb-like {
+top:-41px;
+}
+.snsbtns .facebook .fb-like iframe {
+max-width: none!important;
 }
 .snsbtns .twitter {
 float: left;
 margin: 0px 10px 0px 0px;
 padding: 0px;
-width: 80px;
+width: 70px;
 }
 .snsbtns .google {
 float: left;
-width: 80px;
+width: 70px;
 }
 .snsbtns .linkedin {
 float: left;
-width: auto;
+width: 70px;
 }
 .snsbtns .pocket {
 float: left;
-width: 80px;
+width: 70px;
 }
