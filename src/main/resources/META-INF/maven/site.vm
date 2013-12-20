@@ -436,7 +436,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="none" data-url="http://fess.codelibs.org" data-text="Fess - CodeLibs -" data-lang="en">Tweet</a>
 </dir></li>
 <li><div class="facebook">
-<div class="fb-like" data-href="http://fess.codelibs.org/" data-layout="button" data-action="like" data-show-faces="true" data-share="false"></div>
+<div class="fb-like" data-href="http://fess.codelibs.org/" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
 </div></li>
 <li><div class="google">
 <div class="g-plusone" data-size="tall" data-annotation="none" data-href="http://fess.codelibs.org/"></div>
@@ -483,6 +483,26 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="$relativePath/js/bootstrap.min.js"></script>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>
+<span id="like" style="display:none">LikeÅI</span>
+<script type="text/javascript">
+$(function(){
+ $('#like').css('font-size','11px');
+  var like_w = $('#like').width() + 20;
+  /*@cc_on
+    @if (@_jscript_version == 9) // IE9
+  //  like_w += 3;
+      like_w += 1;
+    @elif (@_jscript_version == 5.8) // IE8
+      like_w += 1;
+    @end
+  @*/
+  $('#like').html(
+    '<style type="text/css">' +
+    '.fb_edge_widget_with_comment iframe{width:' + like_w + 'px !important;}' +
+    '.fb_edge_widget_with_comment span.fb_edge_comment_widget{display: none !important;}' + 
+    '</style>'
+  );});
 </script>
 <script type="text/javascript">
   (function() {
