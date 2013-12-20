@@ -62,7 +62,6 @@ clear: both;
 float: left;
 margin: 0px 10px 0px 0px;
 padding: 0px;
-width: 70px;
 height: 20px;
 overflow: hidden;
 }
@@ -76,17 +75,15 @@ max-width: none!important;
 float: left;
 margin: 0px 10px 0px 0px;
 padding: 0px;
-width: 70px;
 }
 .snsbtns .google {
 float: left;
-width: 70px;
+margin: 0px 10px 0px 0px;
 }
 .snsbtns .linkedin {
 float: left;
-width: 70px;
+margin: 0px 10px 0px 0px;
 }
 .snsbtns .pocket {
 float: left;
-width: 70px;
 }
