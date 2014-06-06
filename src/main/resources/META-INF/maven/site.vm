@@ -401,18 +401,6 @@
 #mainMenu( $decoration.body.menus )
             </ul>
           </div>
-<div id="adsleft" class="visible-desktop">
-<script type="text/javascript"><!--
-google_ad_client = "ca-pub-0248074489415800";
-google_ad_slot = "9609502582";
-google_ad_width = 250;
-google_ad_height = 250;
-//-->
-</script>
-<script type="text/javascript"
-src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
-</div>
 <div id="sponsoredby">
 <div>Sponsored by</div>
 <div><a href="http://www.n2sm.net/n2search.html" target="_blank"><img src="/images/n2sm_banner.gif" alt="N2SM, Inc."/></a></div>
