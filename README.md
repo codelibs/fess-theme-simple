@@ -1,4 +1,4 @@
-Fess Web Site Skin
+Fess Search Page Skin
 =========
 
-This project is a web site skin for http://fess.cocelibs.org/
+This project is a skin for https://fess.codelibs.org/
