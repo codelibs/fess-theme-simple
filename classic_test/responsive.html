@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>test</title>
+        <link href="bootstrap.min.css" rel="stylesheet"/>
+        <link href="style.css" rel="stylesheet"/>
+        <link href="style2.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <header class="container-fluid p-2">
+            <div class="row align-items-center mx-0">
+                <div class="col-auto pl-0 pr-1">
+                    <a href="/">
+                        <img class="logo-header" src="logo-head.png">
+                    </a>
+                </div>
+                <div class="col-12 col-sm-7 col-md-6 col-lg-5">
+                    <div>
+                        <ul class="pl-1 mb-1">
+                            <li>
+                                <a href="/">検索オプション</a>
+                            </li>
+                            <li>
+                                <a href="/">検索のヒント</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <form>
+                        <div class="input-group">
+                            <input class="form-control form-control-sm" maxlength="1000" autocomplete="off" type="text">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-secondary" type="submit" name="search">
+                                        検索
+                                    </button>
+                                </div>
+                            </input>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <main class="container-fluid">
+            <div id="subheader" class="row justify-content-between">
+                <div class="col-auto ml-2 mr-1 px-1 px-sm-3">
+                    <b>Fess</b> の検索結果
+                </div>
+                <div class="col-auto ml-1 mr-2 px-1 px-sm-3">
+                    <b>10</b> 件中 <b>1</b> - <b>1</b> 件目
+                </div>
+            </div>
+            <div class="row justify-content-end mt-1 px-2 px-sm-3">
+                <small>
+                    <a href="/">日付順に表示する</a>
+                    /
+                    検索ヒット順に表示する
+                </small>
+            </div>
+            <div id="result" class="row px-1 px-sm-4 px-md-5">
+                <ol class="list-unstyled col col-md-11 col-lg-8 px-1 pl-sm-3 pr-md-3 my-1">
+                    <li id="result0">
+                        <h3 class="title">
+                            <a class="link" href="">
+                                <strong>Fess</strong>ユーザーガイド
+                            </a>
+                        </h3>
+                        <div class="body">
+                            <div class="description">
+                                <strong>fess</strong>ユーザーガイド 月額1000円でサイト内検索
+                            </div>
+                        </div>
+                        <div>
+                            <small>
+                                <cite class="site">fess.codelibs.org/ja/3.0/user/index.html</cite>
+                                <div class="d-sm-none"></div>
+                                <cite>
+                                    <span class="d-none d-sm-inline">-</span>
+                                    43.5K バイト
+                                    <span class="d-sm-inline">-</span>
+                                    2018-08-27
+                                </cite>
+                            </small>
+                        </div>
+                    </li>
+                    <li id="result1">
+                        <h3 class="title">
+                            <a class="link" href="">
+                                <strong>Fess</strong> で作る Elasticsearch ベースの検索サーバー ～ FSS 編
+                            </a>
+                        </h3>
+                        <div class="body">
+                            <div class="description">
+                                Docs ≫ チュートリアル ≫ Fess で作る Elasticsearch ベースの検索サーバー ～ FSS 編 月額1000円でサイト内検索
+                            </div>
+                        </div>
+                        <div>
+                            <small>
+                                <cite class="site">fess.codelibs.org/ja/articles/article-4.html</cite>
+                                <div class="d-sm-none"></div>
+                                <cite>
+                                    <span class="d-none d-sm-inline">-</span>
+                                    47.9K バイト
+                                    <span class="d-sm-inline">-</span>
+                                    2018-09-05
+                                </cite>
+                            </small>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            <div class="row justify-content-center mb-4">
+                <div class="col-auto px-0">
+                    <ul class="px-1">
+                        <small class="d-none d-sm-inline">
+                            <li>検索結果ページ</li>
+                        </small>
+                        <li><a href="/"><b>前へ</b></a></li>
+                        <small>
+                            <li><a href="/">1</a></li>
+                            <li><a href="/">2</a></li>
+                            <li><a href="/">3</a></li>
+                            <li><a href="/">4</a></li>
+                            <li><a href="/">5</a></li>
+                            <li>6</li>
+                            <li><a href="/">7</a></li>
+                            <li><a href="/">8</a></li>
+                            <li><a href="/">9</a></li>
+                            <li><a href="/">10</a></li>
+                            <li><a href="/">11</a></li>
+                        </small>
+                        <li><a href="/"><b>次へ</b></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="subfooter" class="row justify-content-center">
+                <div class="col-10 col-sm-8 col-lg-6 my-4 px-1">
+                    <form>
+                        <div class="input-group">
+                            <input class="form-control form-control-sm" maxlength="1000" autocomplete="off" type="text">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-secondary" type="submit" name="search">
+                                        検索
+                                    </button>
+                                </div>
+                            </input>
+                        </div>
+                    </form> 
+                </div>
+            </div>
+        </main>
+        <footer class="container-fluid px-4">
+            <div class="row">
+                <div class="col">
+                    footer
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
