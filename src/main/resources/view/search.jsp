@@ -12,10 +12,10 @@
 		href="${fe:url('/osdd')}"
 		title="<la:message key="labels.index_osdd_title" />" />
 </c:if>
-<link href="${fe:url('/css/bootstrap.min.css')}" rel="stylesheet"
+<link href="${fe:url('/css/simple/bootstrap.min.css')}" rel="stylesheet"
 	type="text/css" />
-<link href="${fe:url('/css/style.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/font-awesome.min.css')}" rel="stylesheet"
+<link href="${fe:url('/css/simple/style.css')}" rel="stylesheet" type="text/css" />
+<link href="${fe:url('/css/simple/font-awesome.min.css')}" rel="stylesheet"
 	type="text/css" />
 <style>
 <!--
@@ -243,9 +243,9 @@ ul.container{margin-top:1rem}
 	<jsp:include page="footer.jsp" />
 	<input type="hidden" id="contextPath" value="${contextPath}" />
 	<script type="text/javascript"
-		src="${fe:url('/js/jquery-3.3.1.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/bootstrap.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/suggestor.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/search.js')}"></script>
+		src="${fe:url('/js/simple/jquery-3.3.1.min.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/bootstrap.min.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/suggestor.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/search.js')}"></script>
 </body>
 </html>

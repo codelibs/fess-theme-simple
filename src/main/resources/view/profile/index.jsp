@@ -20,7 +20,7 @@
 	<div class="login-box">
 		<div class="login-logo">
 			<la:link href="/">
-				<img src="${fe:url('/images/logo-top.png')}"
+				<img src="${fe:url('/images/simple/logo-top.png')}"
 					alt="<la:message key="labels.header_brand_name" />" />
 			</la:link>
 		</div>
@@ -89,6 +89,6 @@
 	<script type="text/javascript"
 		src="${fe:url('/js/admin/jquery-3.3.1.min.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/admin/bootstrap.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/profile.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/profile.js')}"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 		<nav class="navbar navbar-expand-md navbar-light " style="padding-top:20px;">
 			<div id="content" class="container" style="max-width:100%;">
 				<la:link styleClass="navbar-brand d-inline-flex" href="/">
-					<img src="${fe:url('/images/logo-head2.png')}"
+					<img src="${fe:url('/images/simple/logo-head2.png')}"
 						alt="<la:message key="labels.header_brand_name" />"
 						class="align-items-center " />
 				</la:link>

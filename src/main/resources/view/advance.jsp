@@ -11,9 +11,9 @@
 		title="<la:message key="labels.index_osdd_title" />"
 	/>
 </c:if>
-<link href="${fe:url('/css/bootstrap.min.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/style.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/font-awesome.min.css')}" rel="stylesheet" type="text/css" />
+<link href="${fe:url('/css/simple/bootstrap.min.css')}" rel="stylesheet" type="text/css" />
+<link href="${fe:url('/css/simple/style.css')}" rel="stylesheet" type="text/css" />
+<link href="${fe:url('/css/simple/font-awesome.min.css')}" rel="stylesheet" type="text/css" />
 </head>
 <style>
 <!--
@@ -29,7 +29,7 @@ input[type="text"]:focus{box-shadow:none}
 			<nav class="navbar navbar-expand-md navbar-light">
 				<div class="container" style="max-width:100%;">
 					<la:link styleClass="navbar-brand d-inline-flex" href="/">
-						<img src="${fe:url('/images/logo-head2.png')}"
+						<img src="${fe:url('/images/simple/logo-head2.png')}"
 							alt="<la:message key="labels.header_brand_name" />"
 							class="align-items-center" />
 					</la:link>
@@ -347,9 +347,9 @@ input[type="text"]:focus{box-shadow:none}
 		<jsp:include page="footer.jsp" />
 	</la:form>
 	<input type="hidden" id="contextPath" value="${contextPath}" />
-	<script type="text/javascript" src="${fe:url('/js/jquery-3.3.1.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/bootstrap.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/suggestor.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/advance.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/jquery-3.3.1.min.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/bootstrap.min.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/suggestor.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/advance.js')}"></script>
 </body>
 </html>

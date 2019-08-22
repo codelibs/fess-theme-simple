@@ -5,21 +5,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title><la:message key="labels.system_error_title" /></title>
-<link href="${fe:url('/css/bootstrap.min.css')}" rel="stylesheet"
+<title><la:message key="labels.search_title" /></title>
+<link href="${fe:url('/css/simple/bootstrap.min.css')}" rel="stylesheet"
 	type="text/css" />
-<link href="${fe:url('/css/style.css')}" rel="stylesheet"
-	type="text/css" />
-<link href="${fe:url('/css/font-awesome.min.css')}"
+<link href="${fe:url('/css/simple/style.css')}" rel="stylesheet" type="text/css" />
+<link href="${fe:url('/css/simple/font-awesome.min.css')}"
 	rel="stylesheet" type="text/css" />
-</head>
 <style>
 <!--
 body{padding:0 ;margin:0 ;font-size: small;line-height:1.4;color: #222; font-family: arial,sans-serif;}
-h3{line-height:1.6}
 main{margin-top:1rem;margin-bottom:60px;max-width:632px !important}
 header{background-color:#fafafa;border-bottom:1px solid #ebebeb;z-index:1}
-p.text-truncate{font-size:medium}
 ul.container{margin-top:1rem}
 .textbox{
 	background:#fff;
@@ -36,29 +32,29 @@ ul.container{margin-top:1rem}
 
 -->
 </style>
-<body class="error">
+</head>
+<body>
 	<header>
-		<jsp:include page="../header.jsp" />
+		<jsp:include page="header.jsp" />
 	</header>
-	<main class="container">
-		<div class="text-center">
-			<h2>
-				<la:message key="labels.error_title" />
-			</h2>
-			<div>
-				<la:info id="msg" message="true">
-					<div class="alert alert-info">${msg}</div>
-				</la:info>
-				<la:errors styleClass="list-unstyled"/>
+	<main class="container ml-md-ex" >
+		<div class="row">
+			<div class="col">
+
+				<jsp:include page="${helpPage}" />
+
 			</div>
 		</div>
+		<div class="text-right">
+			<a href="#"><la:message key="labels.footer_back_to_top" /></a>
+		</div>
 	</main>
-	<jsp:include page="../footer.jsp" />
-	<input type="hidden" id="contextPath" value="<%=request.getContextPath()%>" />
+	<jsp:include page="footer.jsp" />
+	<input type="hidden" id="contextPath" value="${contextPath}" />
 	<script type="text/javascript"
-		src="${fe:url('/js/jquery-3.3.1.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/bootstrap.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/suggestor.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/search.js')}"></script>
+		src="${fe:url('/js/simple/jquery-3.3.1.min.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/bootstrap.min.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/suggestor.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/help.js')}"></script>
 </body>
 </html>
