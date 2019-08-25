@@ -25,7 +25,7 @@
 						<small class="d-none d-lg-inline-block"> <la:link
 								href="/search?q=${f:u(q)}&ex_q=${f:u(queryEntry.value)}&sdh=${f:u(fe:sdh(doc.similar_docs_hash))}${fe:facetQuery()}${fe:geoQuery()}">
 								<la:message key="labels.search_result_similar"
-											arg0="${fe:formatNumber(doc.similar_docs_count-1)}" />
+											arg0="${fe:formatFileSize(doc.similar_docs_count-1)}" />
 							</la:link>
 						</small>
 					</c:if>
