@@ -4,7 +4,7 @@
 	<groupId>org.codelibs.fess</groupId>
 	<artifactId>fess-theme-simple</artifactId>
 	<packaging>jar</packaging>
-	<name>CodeLibs Core Library</name>
+	<name>CodeLibs Simple Theme</name>
 	<version>13.3.1-SNAPSHOT</version>
 	<description />
 	<url>https://github.com/codelibs/fess-theme-simple</url>
