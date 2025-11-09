@@ -346,7 +346,7 @@ input[type="text"]:focus{box-shadow:none}
 		<jsp:include page="footer.jsp" />
 	</la:form>
 	<input type="hidden" id="contextPath" value="${contextPath}" />
-	<script type="text/javascript" src="${fe:url('/js/simple/jquery-3.3.1.min.js')}"></script>
+	<script type="text/javascript" src="${fe:url('/js/simple/jquery-3.7.1.min.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/bootstrap.min.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/suggestor.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/advance.js')}"></script>

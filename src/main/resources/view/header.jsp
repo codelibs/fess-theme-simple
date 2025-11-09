@@ -76,7 +76,7 @@
 		</nav>
 	<div id="searchOptions" class="control-options">
 		<div class="container">
-			<jsp:include page="/WEB-INF/view/searchOptions.jsp" />
+			<jsp:include page="searchOptions.jsp" />
 			<div>
 				<button type="button" class="btn btn-light" id="searchOptionsClearButton">
 					<la:message key="labels.search_options_clear" />
