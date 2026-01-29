@@ -9,6 +9,7 @@
 						alt="<la:message key="labels.header_brand_name" />"
 						class="align-items-center " />
 				</la:link>
+				<c:if test="${!chatPage}">
 				<div
 					class="navbar-form col-md-6 col-sm-8 col-7 mr-auto p-0 textbox"
 					role="search">
@@ -29,6 +30,7 @@
 						</span>
 					</div>
 				</div>
+				</c:if>
 				<ul class="nav navbar-nav d-none d-md-flex">
 					<c:choose>
 						<c:when test="${!empty username && username != 'guest'}">
@@ -66,6 +68,20 @@
 								</la:link></li>
 						</c:when>
 					</c:choose>
+					<c:choose>
+						<c:when test="${chatPage}">
+							<li class="nav-item"><la:link href="/" styleClass="nav-link" role="button">
+								<i class="fa fa-fw fa-search"></i>
+								<span><la:message key="labels.search" /></span>
+							</la:link></li>
+						</c:when>
+						<c:when test="${chatEnabled}">
+							<li class="nav-item"><la:link href="/chat" styleClass="nav-link" role="button">
+								<i class="fa fa-fw fa-robot"></i>
+								<span><la:message key="labels.chat_ai_mode" /></span>
+							</la:link></li>
+						</c:when>
+					</c:choose>
 					<li class="nav-item"><la:link href="/help" styleClass="nav-link" role="help" aria-haspopup="true"
 							aria-expanded="false">
 							<i class="fa fa-fw fa-question-circle"></i>
@@ -74,6 +90,7 @@
 				</ul>
 			</div>
 		</nav>
+	<c:if test="${!chatPage}">
 	<div id="searchOptions" class="control-options">
 		<div class="container">
 			<jsp:include page="searchOptions.jsp" />
@@ -94,4 +111,5 @@
 			</div>
 		</div>
 	</div>
+	</c:if>
 </la:form>
