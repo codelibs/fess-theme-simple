@@ -1,7 +1,7 @@
 /**
  * Fess RAG Chat JavaScript
  * Enhanced with Atlassian Design System patterns
- * Adapted for Bootstrap 4 (simple theme)
+ * Vanilla JS version (no external dependencies)
  */
 var FessChat = (function() {
     'use strict';
@@ -41,25 +41,47 @@ var FessChat = (function() {
 
     var elements = {};
 
+    var isComposing = false;
+
     var phaseOrder = ['intent', 'search', 'evaluate', 'fetch', 'answer'];
+
+    /**
+     * Deep merge utility to replace $.extend(true, ...)
+     */
+    function deepMerge(target, source) {
+        if (!source) return target;
+        for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+                if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+                    if (!target[key] || typeof target[key] !== 'object') {
+                        target[key] = {};
+                    }
+                    deepMerge(target[key], source[key]);
+                } else {
+                    target[key] = source[key];
+                }
+            }
+        }
+        return target;
+    }
 
     /**
      * Initialize the chat module
      */
     function init(options) {
-        $.extend(true, config, options);
+        deepMerge(config, options);
 
         elements = {
-            chatMessages: $('#chatMessages'),
-            chatInput: $('#chatInput'),
-            sendBtn: $('#sendBtn'),
-            newChatBtn: $('#newChatBtn'),
-            statusArea: $('#statusArea'),
-            emptyState: $('#emptyState'),
-            progressIndicator: $('#progressIndicator'),
-            progressMessage: $('#progressMessage'),
-            errorBanner: $('#errorBanner'),
-            charCount: $('#charCount')
+            chatMessages: document.getElementById('chatMessages'),
+            chatInput: document.getElementById('chatInput'),
+            sendBtn: document.getElementById('sendBtn'),
+            newChatBtn: document.getElementById('newChatBtn'),
+            statusArea: document.getElementById('statusArea'),
+            emptyState: document.getElementById('emptyState'),
+            progressIndicator: document.getElementById('progressIndicator'),
+            progressMessage: document.getElementById('progressMessage'),
+            errorBanner: document.getElementById('errorBanner'),
+            charCount: document.getElementById('charCount')
         };
 
         bindEvents();
@@ -72,9 +94,9 @@ var FessChat = (function() {
      * Bind event handlers
      */
     function bindEvents() {
-        elements.sendBtn.on('click', sendMessage);
+        elements.sendBtn.addEventListener('click', sendMessage);
 
-        elements.chatInput.on('keydown', function(e) {
+        elements.chatInput.addEventListener('keydown', function(e) {
             // Prevent sending during IME composition (Japanese, Chinese, etc.)
             if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
                 e.preventDefault();
@@ -83,49 +105,60 @@ var FessChat = (function() {
         });
 
         // Handle IME composition for older browsers
-        elements.chatInput.on('compositionstart', function() {
-            elements.chatInput.data('composing', true);
+        elements.chatInput.addEventListener('compositionstart', function() {
+            isComposing = true;
         });
-        elements.chatInput.on('compositionend', function() {
-            elements.chatInput.data('composing', false);
+        elements.chatInput.addEventListener('compositionend', function() {
+            isComposing = false;
         });
 
-        elements.chatInput.on('input', function() {
+        elements.chatInput.addEventListener('input', function() {
             autoResizeTextarea();
             updateCharCount();
         });
 
-        elements.newChatBtn.on('click', newChat);
+        elements.newChatBtn.addEventListener('click', newChat);
 
-        // Suggestion chip click handlers
-        $('.suggestion-chip').on('click', function() {
-            var suggestion = $(this).data('suggestion');
-            if (suggestion) {
-                elements.chatInput.val(suggestion);
-                updateCharCount();
-                autoResizeTextarea();
-                sendMessage();
+        // Suggestion chip click handlers (event delegation on document)
+        document.addEventListener('click', function(e) {
+            var chip = e.target.closest('.suggestion-chip');
+            if (chip) {
+                var suggestion = chip.dataset.suggestion;
+                if (suggestion) {
+                    elements.chatInput.value = suggestion;
+                    updateCharCount();
+                    autoResizeTextarea();
+                    sendMessage();
+                }
             }
         });
 
-        // Error banner handlers
-        elements.errorBanner.find('.error-banner-retry').on('click', function() {
-            hideErrorBanner();
-            if (state.lastMessage) {
-                elements.chatInput.val(state.lastMessage);
-                updateCharCount();
-                sendMessage();
+        // Error banner handlers (event delegation)
+        elements.errorBanner.addEventListener('click', function(e) {
+            var retryBtn = e.target.closest('.error-banner-retry');
+            if (retryBtn) {
+                hideErrorBanner();
+                if (state.lastMessage) {
+                    elements.chatInput.value = state.lastMessage;
+                    updateCharCount();
+                    sendMessage();
+                }
+                return;
+            }
+
+            var dismissBtn = e.target.closest('.error-banner-dismiss');
+            if (dismissBtn) {
+                hideErrorBanner();
             }
         });
 
-        elements.errorBanner.find('.error-banner-dismiss').on('click', function() {
-            hideErrorBanner();
-        });
-
-        // Message action delegation
-        elements.chatMessages.on('click', '.copy-btn', function() {
-            var messageContent = $(this).closest('.chat-message').find('.message-text');
-            copyToClipboard(messageContent.text(), $(this));
+        // Message action delegation (copy button)
+        elements.chatMessages.addEventListener('click', function(e) {
+            var copyBtn = e.target.closest('.copy-btn');
+            if (copyBtn) {
+                var messageContent = copyBtn.closest('.chat-message').querySelector('.message-text');
+                copyToClipboard(messageContent.textContent, copyBtn);
+            }
         });
     }
 
@@ -133,7 +166,7 @@ var FessChat = (function() {
      * Auto-resize textarea based on content
      */
     function autoResizeTextarea() {
-        var textarea = elements.chatInput[0];
+        var textarea = elements.chatInput;
         textarea.style.height = 'auto';
         textarea.style.height = Math.min(textarea.scrollHeight, 150) + 'px';
     }
@@ -142,16 +175,16 @@ var FessChat = (function() {
      * Update character counter
      */
     function updateCharCount() {
-        var count = elements.chatInput.val().length;
+        var count = elements.chatInput.value.length;
         var maxLength = 4000;
-        elements.charCount.text(count);
+        elements.charCount.textContent = count;
 
-        var counter = elements.charCount.parent();
-        counter.removeClass('warning danger');
+        var counter = elements.charCount.parentNode;
+        counter.classList.remove('warning', 'danger');
         if (count >= maxLength * 0.95) {
-            counter.addClass('danger');
+            counter.classList.add('danger');
         } else if (count >= maxLength * 0.8) {
-            counter.addClass('warning');
+            counter.classList.add('warning');
         }
     }
 
@@ -184,18 +217,20 @@ var FessChat = (function() {
     }
 
     function showCopySuccess(button) {
-        var originalHtml = button.html();
-        button.addClass('copied').html('<i class="fa fa-check"></i> ' + config.labels.copied);
+        var originalHtml = button.innerHTML;
+        button.classList.add('copied');
+        button.innerHTML = '\u2713 ' + escapeHtml(config.labels.copied);
         setTimeout(function() {
-            button.removeClass('copied').html(originalHtml);
+            button.classList.remove('copied');
+            button.innerHTML = originalHtml;
         }, 2000);
     }
 
     function showCopyError(button) {
-        var originalHtml = button.html();
-        button.html('<i class="fa fa-times"></i> ' + config.labels.copyFailed);
+        var originalHtml = button.innerHTML;
+        button.innerHTML = '\u2715 ' + escapeHtml(config.labels.copyFailed);
         setTimeout(function() {
-            button.html(originalHtml);
+            button.innerHTML = originalHtml;
         }, 2000);
     }
 
@@ -204,11 +239,11 @@ var FessChat = (function() {
      */
     function sendMessage() {
         // Check for IME composition
-        if (elements.chatInput.data('composing')) {
+        if (isComposing) {
             return;
         }
 
-        var message = elements.chatInput.val().trim();
+        var message = elements.chatInput.value.trim();
 
         if (!message || state.isProcessing) {
             return;
@@ -229,7 +264,7 @@ var FessChat = (function() {
         addMessage('user', message);
 
         // Clear input
-        elements.chatInput.val('');
+        elements.chatInput.value = '';
         updateCharCount();
         autoResizeTextarea();
 
@@ -255,7 +290,10 @@ var FessChat = (function() {
 
         eventSource.onopen = function() {
             // Remove thinking indicator and create message element with waiting text
-            $('#' + thinkingId).remove();
+            var thinkingEl = document.getElementById(thinkingId);
+            if (thinkingEl) {
+                thinkingEl.parentNode.removeChild(thinkingEl);
+            }
             messageElement = addMessage('assistant', config.labels.waiting, true);
         };
 
@@ -280,7 +318,7 @@ var FessChat = (function() {
                     updateProgressMessage(phaseMessage);
                     // Update message-text element with phase progress
                     if (messageElement) {
-                        messageElement.find('.message-text').text(phaseMessage);
+                        messageElement.querySelector('.message-text').textContent = phaseMessage;
                         scrollToBottom();
                     }
                 } else if (data.status === 'complete') {
@@ -294,7 +332,7 @@ var FessChat = (function() {
             if (data.content) {
                 responseContent += data.content;
                 if (messageElement) {
-                    messageElement.find('.message-text').text(responseContent);
+                    messageElement.querySelector('.message-text').textContent = responseContent;
                     scrollToBottom();
                 }
             }
@@ -313,7 +351,7 @@ var FessChat = (function() {
 
             // Replace streaming text with rendered HTML content if available
             if (data.htmlContent && messageElement) {
-                messageElement.find('.message-text').html(data.htmlContent);
+                messageElement.querySelector('.message-text').innerHTML = data.htmlContent;
             }
 
             // Add message actions
@@ -358,11 +396,14 @@ var FessChat = (function() {
      * Handle error state
      */
     function handleError(thinkingId, messageElement, errorMessage) {
-        $('#' + thinkingId).remove();
+        var thinkingEl = document.getElementById(thinkingId);
+        if (thinkingEl) {
+            thinkingEl.parentNode.removeChild(thinkingEl);
+        }
 
         // Remove the assistant message if it only contains waiting/phase text
         if (messageElement) {
-            messageElement.remove();
+            messageElement.parentNode.removeChild(messageElement);
         }
 
         state.lastError = errorMessage;
@@ -377,15 +418,15 @@ var FessChat = (function() {
      * Show error banner
      */
     function showErrorBanner(message) {
-        elements.errorBanner.find('.error-message').text(message);
-        elements.errorBanner.removeClass('d-none');
+        elements.errorBanner.querySelector('.error-message').textContent = message;
+        elements.errorBanner.classList.remove('hidden');
     }
 
     /**
      * Hide error banner
      */
     function hideErrorBanner() {
-        elements.errorBanner.addClass('d-none');
+        elements.errorBanner.classList.add('hidden');
     }
 
     /**
@@ -401,14 +442,14 @@ var FessChat = (function() {
         }
 
         // Update visual indicators
-        $('.progress-step').each(function() {
-            var stepPhase = $(this).data('phase');
-            $(this).removeClass('active completed');
+        document.querySelectorAll('.progress-step').forEach(function(stepEl) {
+            var stepPhase = stepEl.dataset.phase;
+            stepEl.classList.remove('active', 'completed');
 
             if (state.completedPhases.indexOf(stepPhase) !== -1) {
-                $(this).addClass('completed');
+                stepEl.classList.add('completed');
             } else if (stepPhase === state.currentPhase) {
-                $(this).addClass('active');
+                stepEl.classList.add('active');
             }
         });
     }
@@ -417,7 +458,7 @@ var FessChat = (function() {
      * Update progress message
      */
     function updateProgressMessage(message) {
-        elements.progressMessage.text(message);
+        elements.progressMessage.textContent = message;
     }
 
     /**
@@ -425,16 +466,18 @@ var FessChat = (function() {
      */
     function showProgressIndicator() {
         // Reset all steps
-        $('.progress-step').removeClass('active completed');
-        elements.progressMessage.text('');
-        elements.progressIndicator.removeClass('d-none');
+        document.querySelectorAll('.progress-step').forEach(function(stepEl) {
+            stepEl.classList.remove('active', 'completed');
+        });
+        elements.progressMessage.textContent = '';
+        elements.progressIndicator.classList.remove('hidden');
     }
 
     /**
      * Hide progress indicator
      */
     function hideProgressIndicator() {
-        elements.progressIndicator.addClass('d-none');
+        elements.progressIndicator.classList.add('hidden');
         state.currentPhase = null;
         state.completedPhases = [];
     }
@@ -443,14 +486,14 @@ var FessChat = (function() {
      * Hide empty state
      */
     function hideEmptyState() {
-        elements.emptyState.hide();
+        elements.emptyState.style.display = 'none';
     }
 
     /**
      * Show empty state
      */
     function showEmptyState() {
-        elements.emptyState.show();
+        elements.emptyState.style.display = '';
     }
 
     /**
@@ -470,39 +513,57 @@ var FessChat = (function() {
      * Add a message to the chat
      */
     function addMessage(role, content, streaming) {
-        var avatarIcon = role === 'user' ? 'fa-user' : 'fa-robot';
+        var avatarText = role === 'user' ? 'U' : 'AI';
         var timestamp = formatTimestamp(new Date());
 
-        var html =
-            '<div class="chat-message ' + role + '">' +
-                '<div class="message-avatar"><i class="fa ' + avatarIcon + '" aria-hidden="true"></i></div>' +
-                '<div class="message-wrapper">' +
-                    '<div class="message-content">' +
-                        '<div class="message-text">' + escapeHtml(content) + '</div>' +
-                    '</div>' +
-                    '<div class="message-timestamp">' + timestamp + '</div>' +
-                '</div>' +
-            '</div>';
+        var messageDiv = document.createElement('div');
+        messageDiv.className = 'chat-message ' + role;
 
-        var element = $(html);
-        elements.chatMessages.append(element);
+        var avatarDiv = document.createElement('div');
+        avatarDiv.className = 'message-avatar';
+        avatarDiv.textContent = avatarText;
+
+        var wrapperDiv = document.createElement('div');
+        wrapperDiv.className = 'message-wrapper';
+
+        var contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content';
+
+        var textDiv = document.createElement('div');
+        textDiv.className = 'message-text';
+        textDiv.textContent = content;
+
+        var timestampDiv = document.createElement('div');
+        timestampDiv.className = 'message-timestamp';
+        timestampDiv.textContent = timestamp;
+
+        contentDiv.appendChild(textDiv);
+        wrapperDiv.appendChild(contentDiv);
+        wrapperDiv.appendChild(timestampDiv);
+        messageDiv.appendChild(avatarDiv);
+        messageDiv.appendChild(wrapperDiv);
+
+        elements.chatMessages.appendChild(messageDiv);
         scrollToBottom();
 
-        return element;
+        return messageDiv;
     }
 
     /**
      * Add message actions (copy button)
      */
     function addMessageActions(messageElement) {
-        var actionsHtml =
-            '<div class="message-actions">' +
-                '<button type="button" class="message-action-btn copy-btn" aria-label="Copy message">' +
-                    '<i class="fa fa-copy" aria-hidden="true"></i> Copy' +
-                '</button>' +
-            '</div>';
+        var actionsDiv = document.createElement('div');
+        actionsDiv.className = 'message-actions';
 
-        messageElement.find('.message-wrapper').append(actionsHtml);
+        var copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'message-action-btn copy-btn';
+        copyBtn.setAttribute('aria-label', 'Copy message');
+        copyBtn.textContent = 'Copy';
+
+        actionsDiv.appendChild(copyBtn);
+        messageElement.querySelector('.message-wrapper').appendChild(actionsDiv);
     }
 
     /**
@@ -538,31 +599,32 @@ var FessChat = (function() {
 
     /**
      * Get file type icon based on URL or mimetype
+     * Returns text indicator instead of Font Awesome class names
      */
     function getFileTypeIcon(url, mimetype) {
         if (mimetype) {
-            if (mimetype.indexOf('pdf') !== -1) return 'fa-file-pdf-o';
-            if (mimetype.indexOf('word') !== -1 || mimetype.indexOf('document') !== -1) return 'fa-file-word-o';
-            if (mimetype.indexOf('excel') !== -1 || mimetype.indexOf('spreadsheet') !== -1) return 'fa-file-excel-o';
-            if (mimetype.indexOf('powerpoint') !== -1 || mimetype.indexOf('presentation') !== -1) return 'fa-file-powerpoint-o';
-            if (mimetype.indexOf('image') !== -1) return 'fa-file-image-o';
-            if (mimetype.indexOf('text') !== -1) return 'fa-file-text-o';
+            if (mimetype.indexOf('pdf') !== -1) return 'PDF';
+            if (mimetype.indexOf('word') !== -1 || mimetype.indexOf('document') !== -1) return 'DOC';
+            if (mimetype.indexOf('excel') !== -1 || mimetype.indexOf('spreadsheet') !== -1) return 'XLS';
+            if (mimetype.indexOf('powerpoint') !== -1 || mimetype.indexOf('presentation') !== -1) return 'PPT';
+            if (mimetype.indexOf('image') !== -1) return 'IMG';
+            if (mimetype.indexOf('text') !== -1) return 'TXT';
         }
 
         if (url) {
             var ext = url.split('.').pop().toLowerCase().split('?')[0];
             switch (ext) {
-                case 'pdf': return 'fa-file-pdf-o';
-                case 'doc': case 'docx': return 'fa-file-word-o';
-                case 'xls': case 'xlsx': return 'fa-file-excel-o';
-                case 'ppt': case 'pptx': return 'fa-file-powerpoint-o';
-                case 'jpg': case 'jpeg': case 'png': case 'gif': return 'fa-file-image-o';
-                case 'txt': case 'md': return 'fa-file-text-o';
-                case 'html': case 'htm': return 'fa-globe';
+                case 'pdf': return 'PDF';
+                case 'doc': case 'docx': return 'DOC';
+                case 'xls': case 'xlsx': return 'XLS';
+                case 'ppt': case 'pptx': return 'PPT';
+                case 'jpg': case 'jpeg': case 'png': case 'gif': return 'IMG';
+                case 'txt': case 'md': return 'TXT';
+                case 'html': case 'htm': return 'Web';
             }
         }
 
-        return 'fa-file-o';
+        return '';
     }
 
     /**
@@ -594,7 +656,15 @@ var FessChat = (function() {
      * Add sources to a message (card style)
      */
     function addSourcesToMessage(messageElement, sources) {
-        var html = '<div class="message-sources"><h6>' + escapeHtml(config.labels.sources) + '</h6><ul class="source-list">';
+        var sourcesDiv = document.createElement('div');
+        sourcesDiv.className = 'message-sources';
+
+        var heading = document.createElement('h6');
+        heading.textContent = config.labels.sources;
+        sourcesDiv.appendChild(heading);
+
+        var list = document.createElement('ul');
+        list.className = 'source-list';
 
         for (var i = 0; i < sources.length; i++) {
             var source = sources[i];
@@ -603,21 +673,42 @@ var FessChat = (function() {
             var icon = getFileTypeIcon(source.url, source.mimetype);
             var typeLabel = getFileTypeLabel(source.url, source.mimetype);
 
-            html += '<li>' +
-                '<a href="' + escapeHtml(url) + '" class="source-card" target="_blank" rel="noopener noreferrer">' +
-                    '<span class="source-index">' + (i + 1) + '</span>' +
-                    '<div class="source-info">' +
-                        '<span class="source-title">' + escapeHtml(title) + '</span>' +
-                        '<div class="source-meta">' +
-                            '<span class="source-type"><i class="fa ' + icon + '" aria-hidden="true"></i> ' + typeLabel + '</span>' +
-                        '</div>' +
-                    '</div>' +
-                '</a>' +
-            '</li>';
+            var li = document.createElement('li');
+            var anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.className = 'source-card';
+            anchor.target = '_blank';
+            anchor.rel = 'noopener noreferrer';
+
+            var indexSpan = document.createElement('span');
+            indexSpan.className = 'source-index';
+            indexSpan.textContent = (i + 1);
+
+            var infoDiv = document.createElement('div');
+            infoDiv.className = 'source-info';
+
+            var titleSpan = document.createElement('span');
+            titleSpan.className = 'source-title';
+            titleSpan.textContent = title;
+
+            var metaDiv = document.createElement('div');
+            metaDiv.className = 'source-meta';
+
+            var typeSpan = document.createElement('span');
+            typeSpan.className = 'source-type';
+            typeSpan.textContent = icon + ' ' + typeLabel;
+
+            metaDiv.appendChild(typeSpan);
+            infoDiv.appendChild(titleSpan);
+            infoDiv.appendChild(metaDiv);
+            anchor.appendChild(indexSpan);
+            anchor.appendChild(infoDiv);
+            li.appendChild(anchor);
+            list.appendChild(li);
         }
 
-        html += '</ul></div>';
-        messageElement.find('.message-content').append(html);
+        sourcesDiv.appendChild(list);
+        messageElement.querySelector('.message-content').appendChild(sourcesDiv);
     }
 
     /**
@@ -625,16 +716,30 @@ var FessChat = (function() {
      */
     function addThinkingIndicator() {
         var id = 'thinking-' + Date.now();
-        var html =
-            '<div id="' + id + '" class="chat-message assistant">' +
-                '<div class="message-avatar"><i class="fa fa-robot" aria-hidden="true"></i></div>' +
-                '<div class="thinking-indicator">' +
-                    escapeHtml(config.labels.thinking) +
-                    '<div class="thinking-dots"><span></span><span></span><span></span></div>' +
-                '</div>' +
-            '</div>';
 
-        elements.chatMessages.append(html);
+        var messageDiv = document.createElement('div');
+        messageDiv.id = id;
+        messageDiv.className = 'chat-message assistant';
+
+        var avatarDiv = document.createElement('div');
+        avatarDiv.className = 'message-avatar';
+        avatarDiv.textContent = 'AI';
+
+        var thinkingDiv = document.createElement('div');
+        thinkingDiv.className = 'thinking-indicator';
+        thinkingDiv.textContent = config.labels.thinking;
+
+        var dotsDiv = document.createElement('div');
+        dotsDiv.className = 'thinking-dots';
+        dotsDiv.appendChild(document.createElement('span'));
+        dotsDiv.appendChild(document.createElement('span'));
+        dotsDiv.appendChild(document.createElement('span'));
+
+        thinkingDiv.appendChild(dotsDiv);
+        messageDiv.appendChild(avatarDiv);
+        messageDiv.appendChild(thinkingDiv);
+
+        elements.chatMessages.appendChild(messageDiv);
         scrollToBottom();
         return id;
     }
@@ -654,9 +759,12 @@ var FessChat = (function() {
 
         if (state.sessionId) {
             // Clear session on server
-            $.post(config.apiUrl, {
-                sessionId: state.sessionId,
-                clear: 'true'
+            fetch(config.apiUrl, {
+                method: 'POST',
+                body: new URLSearchParams({
+                    sessionId: state.sessionId,
+                    clear: 'true'
+                })
             });
         }
         state.sessionId = null;
@@ -664,7 +772,10 @@ var FessChat = (function() {
         state.lastError = null;
         state.currentPhase = null;
         state.completedPhases = [];
-        elements.chatMessages.find('.chat-message').remove();
+        var chatMsgs = elements.chatMessages.querySelectorAll('.chat-message');
+        chatMsgs.forEach(function(msg) {
+            msg.parentNode.removeChild(msg);
+        });
         showEmptyState();
         hideErrorBanner();
         hideProgressIndicator();
@@ -699,23 +810,29 @@ var FessChat = (function() {
                 break;
         }
 
-        elements.statusArea.attr('class', cssClass);
-        elements.statusArea.html('<i class="fa fa-robot mr-1" aria-hidden="true"></i><span class="status-text">' + escapeHtml(text) + '</span>');
+        elements.statusArea.className = cssClass;
+        // Build status content with DOM methods
+        elements.statusArea.textContent = '';
+        var statusText = document.createElement('span');
+        statusText.className = 'status-text';
+        statusText.textContent = text;
+        elements.statusArea.appendChild(document.createTextNode('AI '));
+        elements.statusArea.appendChild(statusText);
     }
 
     /**
      * Update UI state
      */
     function updateUI() {
-        elements.sendBtn.prop('disabled', state.isProcessing);
-        elements.chatInput.prop('disabled', state.isProcessing);
+        elements.sendBtn.disabled = state.isProcessing;
+        elements.chatInput.disabled = state.isProcessing;
     }
 
     /**
      * Scroll chat to bottom
      */
     function scrollToBottom() {
-        elements.chatMessages.scrollTop(elements.chatMessages[0].scrollHeight);
+        elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
     }
 
     /**

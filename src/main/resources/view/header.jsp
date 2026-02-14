@@ -2,68 +2,56 @@
 <la:form action="/search" method="get" styleId="searchForm"
 	role="search">
 	${fe:facetForm()}${fe:geoForm()}
-		<nav class="navbar navbar-expand-md navbar-light " style="padding-top:20px;">
+		<nav class="site-header" style="padding-top:20px;">
 			<div id="content" class="container" style="max-width:100%;">
-				<la:link styleClass="navbar-brand d-inline-flex" href="/">
+				<la:link styleClass="site-logo" href="/">
 					<img src="${fe:url('/images/simple/logo-head2.png')}"
-						alt="<la:message key="labels.header_brand_name" />"
-						class="align-items-center " />
+						alt="<la:message key="labels.header_brand_name" />" />
 				</la:link>
 				<c:if test="${!chatPage}">
 				<div
-					class="navbar-form col-md-6 col-sm-8 col-7 mr-auto p-0 textbox"
+					class="header-search-box textbox"
 					role="search">
-					<div class="input-group" >
+					<div class="input-group">
 						<la:text property="q" maxlength="1000" styleId="query"
-							styleClass="form-control" autocomplete="off"/>
+							styleClass="search-input" autocomplete="off"/>
 						<span class="input-group-append">
 							<button type="submit" name="search" id="searchButton"
 								class="btn" >
-								<i class="fa fa-search"></i>
 							</button>
 							<button type="button" class="btn"
 								data-toggle="control-options" data-target="#searchOptions"
 								id="searchOptionsButton" >
-								<i class="fa fa-cog"></i> <span class="sr-only"><la:message
+								<span aria-hidden="true">&#x2699;</span> <span class="visually-hidden"><la:message
 										key="labels.header_form_option_btn" /></span>
 							</button>
 						</span>
 					</div>
 				</div>
 				</c:if>
-				<ul class="nav navbar-nav d-none d-md-flex">
+				<ul class="nav-list hidden-mobile">
 					<c:choose>
 						<c:when test="${!empty username && username != 'guest'}">
-							<li class="nav-item">
-								<div class="dropdown">
-									<a class="nav-link dropdown-toggle" data-toggle="dropdown"
-										href="#" role="button" aria-haspopup="true"
-										aria-expanded="false"> <i class="fa fa-fw fa-user"></i>
-										<span>${username}</span>
-									</a>
-									<div class="dropdown-menu" aria-labelledby="userMenu">
-										<c:if test="${editableUser == true}">
-											<la:link href="/profile" styleClass="dropdown-item">
-												<la:message key="labels.profile" />
-											</la:link>
-										</c:if>
-										<c:if test="${adminUser == true}">
-											<la:link href="/admin" styleClass="dropdown-item">
-												<la:message key="labels.administration" />
-											</la:link>
-										</c:if>
-										<la:link href="/logout/" styleClass="dropdown-item">
-											<la:message key="labels.logout" />
-										</la:link>
-									</div>
-								</div>
-							</li>
+						<li class="nav-item"><span class="nav-link nav-user">${username}</span></li>
+						<c:if test="${editableUser == true}">
+							<li class="nav-item"><la:link href="/profile" styleClass="nav-link">
+								<la:message key="labels.profile" />
+							</la:link></li>
+						</c:if>
+						<c:if test="${adminUser == true}">
+							<li class="nav-item"><la:link href="/admin" styleClass="nav-link">
+								<la:message key="labels.administration" />
+							</la:link></li>
+						</c:if>
+						<li class="nav-item"><la:link href="/logout/" styleClass="nav-link">
+							<la:message key="labels.logout" />
+						</la:link></li>
 						</c:when>
 						<c:when test="${ pageLoginLink }">
 							<li class="nav-item"><la:link href="/login"
-									styleClass="nav-link  " role="button" aria-haspopup="true"
+									styleClass="nav-link" role="button" aria-haspopup="true"
 									aria-expanded="false">
-									<i class="fa fa-fw fa-sign-in"></i>
+									<span aria-hidden="true">&#x2192;</span>
 									<span><la:message key="labels.login" /></span>
 								</la:link></li>
 						</c:when>
@@ -71,20 +59,19 @@
 					<c:choose>
 						<c:when test="${chatPage}">
 							<li class="nav-item"><la:link href="/" styleClass="nav-link" role="button">
-								<i class="fa fa-fw fa-search"></i>
 								<span><la:message key="labels.search" /></span>
 							</la:link></li>
 						</c:when>
 						<c:when test="${chatEnabled}">
 							<li class="nav-item"><la:link href="/chat" styleClass="nav-link" role="button">
-								<i class="fa fa-fw fa-robot"></i>
+								<span aria-hidden="true">AI</span>
 								<span><la:message key="labels.chat_ai_mode" /></span>
 							</la:link></li>
 						</c:when>
 					</c:choose>
 					<li class="nav-item"><la:link href="/help" styleClass="nav-link" role="help" aria-haspopup="true"
 							aria-expanded="false">
-							<i class="fa fa-fw fa-question-circle"></i>
+							<span aria-hidden="true">?</span>
 							<span><la:message key="labels.index_help" /></span>
 						</la:link></li>
 				</ul>
@@ -95,17 +82,17 @@
 		<div class="container">
 			<jsp:include page="searchOptions.jsp" />
 			<div>
-				<button type="button" class="btn btn-light" id="searchOptionsClearButton">
+				<button type="button" class="btn" id="searchOptionsClearButton">
 					<la:message key="labels.search_options_clear" />
 				</button>
-				<la:link href="/search/advance?q=${f:u(q)}${fe:pagingQuery(null)}" styleClass="btn btn-info">
-					<i class="fa fa-cog"></i>
+				<la:link href="/search/advance?q=${f:u(q)}${fe:pagingQuery(null)}" styleClass="btn btn-secondary">
+					<span aria-hidden="true">&#x2699;</span>
 					<la:message key="labels.advance" />
 				</la:link>
-				<button type="button" class="btn btn-light pull-right"
+				<button type="button" class="btn" style="margin-left:auto"
 					data-toggle="control-options" data-target="#searchOptions"
 					id="searchOptionsCloseButton">
-					<i class="fa fa-times-circle"></i>
+					<span aria-hidden="true">&#x2715;</span>
 					<la:message key="labels.search_options_close" />
 				</button>
 			</div>

@@ -1,1 +1,400 @@
-(function(a){a.fn.suggestor=function(m){var f;var d;var s="";var j=false;var i=0;var h=0;var l=false;var c=false;var r=5;var n=1;var o;var k;var b;var p;var q;var g;var t=false;var e={init:function(u,w){t=false;f=a("<div/>");f.addClass("suggestorBox");f.css("display","none");f.css("position","absolute");f.css("text-align","left");f.css("font-size",u.css("font-size"));if(typeof w.boxCssInfo==="undefined"){f.css("border","1px solid #cccccc");f.css("-webkit-box-shadow","0 3px 2px 0px rgba(0, 0, 0, 0.1), 0 3px 2px 0px rgba(236, 236, 236, 0.6)");f.css("-moz-box-shadow","0 3px 2px 0px rgba(0, 0, 0, 0.1), 0 3px 2px 0px rgba(236, 236, 236, 0.6)");f.css("box-shadow","0 3px 2px 0px rgba(0, 0, 0, 0.1), 0 3px 2px 0px rgba(236, 236, 236, 0.6)");f.css("background-color","#fff")}else{f.css(w.boxCssInfo)}d=u;d.attr("autocomplete","off");j=false;s=d.val();o=w.ajaxinfo;n=w.minterm;b=w.searchForm;p=w.listSelectedCssInfo;q=w.listDeselectedCssInfo;k=w.adjustWidthVal;g=w.boxCssInfo;f.hover(function(){l=true},function(){l=false});this.resize();var v=this;a(window).resize(function(){v.resize()});a("body").append(f)},suggest:function(){t=true;this.resize();var u=this;s=d.val();i=0;h=0;if(s.length<n){f.css("display","none");t=false;return}a.ajax({url:o.url,type:"get",dataType:"jsonp",cache:false,data:{query:d.val(),fields:o.fn,num:o.num*2,lang:o.lang},traditional:true}).done(function(v){u.createAutoCompleteList(v)}).fail(function(w,x,v){t=false;return})},createAutoCompleteList:function(A){if(A.response.status!==0){f.css("display","none");return}var y=A.response.result.hits;var u=this;i=0;if(typeof y!=="undefined"){var B=[];for(var C=0;C<y.length;C++){B.push(y[C].text)}var v=a("<ol/>");v.css("list-style","none");v.css("padding","0");v.css("margin","2px");for(var z=0;z<B.length&&i<o.num;z++){var F=B[z];var D=true;var E=a(v.children("li"));for(var x=0;x<E.length;x++){if(F===a(E.get(x)).html()){D=false}}if(D){var w=a("<li/>");w.html(F);w.click(function(){var G=a(this).html();u.fixList();d.val(G);if(typeof b!=="undefined"){b.submit()}});w.hover(function(){h=a(this).closest("ol").children("li").index(this)+1;a(this).closest("ol").children("li").each(function(G){if(G===h-1){if(typeof p==="undefined"){a(this).css("background-color","#e5e5e5")}else{a(this).css(p)}}else{if(typeof q!=="undefined"){a(this).css(q)}else{if(typeof g==="undefined"||typeof g["background-color"]==="undefined"){a(this).css("background-color","#ffffff")}else{a(this).css("background-color",g["background-color"])}}}})},function(){if(h===a(this).closest("ol").children("li").index(this)+1){if(typeof q!=="undefined"){a(this).css(q)}else{if(typeof g==="undefined"||typeof g["background-color"]==="undefined"){a(this).css("background-color","#ffffff")}else{a(this).css("background-color",g["background-color"])}}h=0}});w.css("padding","2px");v.append(w);i++}}if(i>0&&d.val().length>=n){f.html("");f.append(v);f.css("display","block")}else{f.css("display","none")}}else{f.css("display","none")}this.resize();t=false},selectlist:function(u){if(f.css("display")==="none"){return}if(u==="down"){h++}else{if(u==="up"){h--}else{return}}j=true;if(h<0){h=i}else{if(h>i){h=0}}f.children("ol").children("li").each(function(v){if(v===h-1){if(typeof p==="undefined"){a(this).css("background-color","#e5e5e5")}else{a(this).css(p)}d.val(a(this).html())}else{if(typeof q!=="undefined"){a(this).css(q)}else{if(typeof g==="undefined"||typeof g["background-color"]==="undefined"){a(this).css("background-color","#ffffff")}else{a(this).css("background-color",g["background-color"])}}}});if(h===0){d.val(s)}},fixList:function(){if(h>0){d.val(a(f.children("ol").children("li").get(h-1)).html())}s=d.val();j=false;f.css("display","none");i=0},resize:function(){f.css("top",d.offset().top+d.height()+6);f.css("left",d.offset().left);f.css("height","auto");f.css("width","auto");if(f.width()<d.width()+k){f.width(d.width()+k)}}};e.init(a(this),m);a(this).keydown(function(u){if((u.keyCode>=48&&u.keyCode<=90)||(u.keyCode>=96&&u.keyCode<=105)||(u.keyCode>=186&&u.keyCode<=226)||u.keyCode===8||u.keyCode===32||u.keyCode===46){c=true;j=false}else{if(u.keyCode===38){if(f.css("display")!=="none"){u.preventDefault()}e.selectlist("up")}else{if(u.keyCode===40){if(f.css("display")==="none"){e.suggest()}else{e.selectlist("down")}}else{if(u.keyCode===13){if(j){e.fixList()}}}}}});a(this).keyup(function(u){if((u.keyCode>=48&&u.keyCode<=90)||(u.keyCode>=96&&u.keyCode<=105)||(u.keyCode>=186&&u.keyCode<=226)||u.keyCode===8||u.keyCode===32||u.keyCode===46){c=true;j=false}else{if(u.keyCode===38){}}});a(this).blur(function(){if(!l){e.fixList()}});setInterval(function(){if(r<5){r=r+1}else{if(d.val()!==s){if(!j&&c&&!t){e.suggest();r=0}}}},100)}})(jQuery);
+function Suggestor(element, options) {
+    var suggestBox;
+    var inputEl;
+    var savedVal = '';
+    var isSelecting = false;
+    var totalItems = 0;
+    var currentIndex = 0;
+    var isMouseOverBox = false;
+    var isCharInput = false;
+    var throttleCount = 5;
+    var minterm = 1;
+    var ajaxinfo;
+    var adjustWidthVal;
+    var searchForm;
+    var listSelectedCssInfo;
+    var listDeselectedCssInfo;
+    var boxCssInfo;
+    var isSuggesting = false;
+    var jsonpCounter = 0;
+
+    function jsonpFetch(url, params, successCallback, failCallback) {
+        var callbackName = '_suggestorCallback' + (++jsonpCounter) + '_' + Date.now();
+        var query = [];
+        for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+                var val = params[key];
+                if (Array.isArray(val)) {
+                    for (var i = 0; i < val.length; i++) {
+                        query.push(encodeURIComponent(key) + '=' + encodeURIComponent(val[i]));
+                    }
+                } else {
+                    query.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
+                }
+            }
+        }
+        query.push('callback=' + callbackName);
+        query.push('_=' + Date.now());
+        var src = url + '?' + query.join('&');
+
+        window[callbackName] = function(data) {
+            delete window[callbackName];
+            if (script.parentNode) {
+                script.parentNode.removeChild(script);
+            }
+            successCallback(data);
+        };
+
+        var script = document.createElement('script');
+        script.src = src;
+        script.onerror = function() {
+            delete window[callbackName];
+            if (script.parentNode) {
+                script.parentNode.removeChild(script);
+            }
+            if (failCallback) {
+                failCallback();
+            }
+        };
+        document.head.appendChild(script);
+    }
+
+    function getDeselectedBg() {
+        if (listDeselectedCssInfo && listDeselectedCssInfo['background-color']) {
+            return listDeselectedCssInfo['background-color'];
+        }
+        if (boxCssInfo && boxCssInfo['background-color']) {
+            return boxCssInfo['background-color'];
+        }
+        return '#ffffff';
+    }
+
+    function applyDeselectedStyle(el) {
+        if (listDeselectedCssInfo) {
+            for (var prop in listDeselectedCssInfo) {
+                if (listDeselectedCssInfo.hasOwnProperty(prop)) {
+                    el.style[cssPropToJs(prop)] = listDeselectedCssInfo[prop];
+                }
+            }
+        } else {
+            el.style.backgroundColor = getDeselectedBg();
+        }
+    }
+
+    function applySelectedStyle(el) {
+        if (listSelectedCssInfo) {
+            for (var prop in listSelectedCssInfo) {
+                if (listSelectedCssInfo.hasOwnProperty(prop)) {
+                    el.style[cssPropToJs(prop)] = listSelectedCssInfo[prop];
+                }
+            }
+        } else {
+            el.style.backgroundColor = '#e5e5e5';
+        }
+    }
+
+    function cssPropToJs(prop) {
+        return prop.replace(/-([a-z])/g, function(match, letter) {
+            return letter.toUpperCase();
+        });
+    }
+
+    function init(el, opts) {
+        isSuggesting = false;
+        suggestBox = document.createElement('div');
+        suggestBox.className = 'suggestorBox';
+        suggestBox.style.display = 'none';
+        suggestBox.style.position = 'absolute';
+        suggestBox.style.textAlign = 'left';
+
+        var computedStyle = window.getComputedStyle(el);
+        suggestBox.style.fontSize = computedStyle.fontSize;
+
+        if (typeof opts.boxCssInfo === 'undefined') {
+            suggestBox.style.border = '1px solid #cccccc';
+            suggestBox.style.webkitBoxShadow = '0 3px 2px 0px rgba(0, 0, 0, 0.1), 0 3px 2px 0px rgba(236, 236, 236, 0.6)';
+            suggestBox.style.MozBoxShadow = '0 3px 2px 0px rgba(0, 0, 0, 0.1), 0 3px 2px 0px rgba(236, 236, 236, 0.6)';
+            suggestBox.style.boxShadow = '0 3px 2px 0px rgba(0, 0, 0, 0.1), 0 3px 2px 0px rgba(236, 236, 236, 0.6)';
+            suggestBox.style.backgroundColor = '#fff';
+        } else {
+            for (var prop in opts.boxCssInfo) {
+                if (opts.boxCssInfo.hasOwnProperty(prop)) {
+                    suggestBox.style[cssPropToJs(prop)] = opts.boxCssInfo[prop];
+                }
+            }
+        }
+
+        inputEl = el;
+        inputEl.setAttribute('autocomplete', 'off');
+        isSelecting = false;
+        savedVal = inputEl.value;
+        ajaxinfo = opts.ajaxinfo;
+        minterm = opts.minterm;
+        searchForm = opts.searchForm;
+        listSelectedCssInfo = opts.listSelectedCssInfo;
+        listDeselectedCssInfo = opts.listDeselectedCssInfo;
+        adjustWidthVal = opts.adjustWidthVal;
+        boxCssInfo = opts.boxCssInfo;
+
+        suggestBox.addEventListener('mouseenter', function() {
+            isMouseOverBox = true;
+        });
+        suggestBox.addEventListener('mouseleave', function() {
+            isMouseOverBox = false;
+        });
+
+        resize();
+
+        window.addEventListener('resize', function() {
+            resize();
+        });
+
+        document.body.appendChild(suggestBox);
+    }
+
+    function suggest() {
+        isSuggesting = true;
+        resize();
+        savedVal = inputEl.value;
+        totalItems = 0;
+        currentIndex = 0;
+        if (savedVal.length < minterm) {
+            suggestBox.style.display = 'none';
+            isSuggesting = false;
+            return;
+        }
+
+        jsonpFetch(
+            ajaxinfo.url,
+            {
+                query: inputEl.value,
+                fields: ajaxinfo.fn,
+                num: ajaxinfo.num * 2,
+                lang: ajaxinfo.lang
+            },
+            function(data) {
+                createAutoCompleteList(data);
+            },
+            function() {
+                isSuggesting = false;
+            }
+        );
+    }
+
+    function createAutoCompleteList(data) {
+        if (data.response.status !== 0) {
+            suggestBox.style.display = 'none';
+            return;
+        }
+
+        var hits = data.response.result.hits;
+        totalItems = 0;
+
+        if (typeof hits !== 'undefined') {
+            var texts = [];
+            for (var c = 0; c < hits.length; c++) {
+                texts.push(hits[c].text);
+            }
+
+            var ol = document.createElement('ol');
+            ol.style.listStyle = 'none';
+            ol.style.padding = '0';
+            ol.style.margin = '2px';
+
+            for (var z = 0; z < texts.length && totalItems < ajaxinfo.num; z++) {
+                var text = texts[z];
+                var isDuplicate = false;
+                var existingItems = ol.querySelectorAll('li');
+                for (var x = 0; x < existingItems.length; x++) {
+                    if (text === existingItems[x].textContent) {
+                        isDuplicate = true;
+                    }
+                }
+
+                if (!isDuplicate) {
+                    var li = document.createElement('li');
+                    li.textContent = text;
+
+                    li.addEventListener('click', (function(liEl) {
+                        return function() {
+                            var val = liEl.textContent;
+                            fixList();
+                            inputEl.value = val;
+                            if (typeof searchForm !== 'undefined') {
+                                searchForm.submit();
+                            }
+                        };
+                    })(li));
+
+                    li.addEventListener('mouseenter', (function(liEl) {
+                        return function() {
+                            var parentOl = liEl.closest('ol');
+                            var siblings = parentOl.querySelectorAll('li');
+                            var idx = Array.prototype.indexOf.call(siblings, liEl);
+                            currentIndex = idx + 1;
+                            for (var i = 0; i < siblings.length; i++) {
+                                if (i === currentIndex - 1) {
+                                    applySelectedStyle(siblings[i]);
+                                } else {
+                                    applyDeselectedStyle(siblings[i]);
+                                }
+                            }
+                        };
+                    })(li));
+
+                    li.addEventListener('mouseleave', (function(liEl) {
+                        return function() {
+                            var parentOl = liEl.closest('ol');
+                            var siblings = parentOl.querySelectorAll('li');
+                            var idx = Array.prototype.indexOf.call(siblings, liEl);
+                            if (currentIndex === idx + 1) {
+                                applyDeselectedStyle(liEl);
+                                currentIndex = 0;
+                            }
+                        };
+                    })(li));
+
+                    li.style.padding = '2px';
+                    ol.appendChild(li);
+                    totalItems++;
+                }
+            }
+
+            if (totalItems > 0 && inputEl.value.length >= minterm) {
+                while (suggestBox.firstChild) {
+                    suggestBox.removeChild(suggestBox.firstChild);
+                }
+                suggestBox.appendChild(ol);
+                suggestBox.style.display = 'block';
+            } else {
+                suggestBox.style.display = 'none';
+            }
+        } else {
+            suggestBox.style.display = 'none';
+        }
+
+        resize();
+        isSuggesting = false;
+    }
+
+    function selectlist(direction) {
+        if (suggestBox.style.display === 'none') {
+            return;
+        }
+
+        if (direction === 'down') {
+            currentIndex++;
+        } else if (direction === 'up') {
+            currentIndex--;
+        } else {
+            return;
+        }
+
+        isSelecting = true;
+
+        if (currentIndex < 0) {
+            currentIndex = totalItems;
+        } else if (currentIndex > totalItems) {
+            currentIndex = 0;
+        }
+
+        var items = suggestBox.querySelectorAll('ol > li');
+        for (var i = 0; i < items.length; i++) {
+            if (i === currentIndex - 1) {
+                applySelectedStyle(items[i]);
+                inputEl.value = items[i].textContent;
+            } else {
+                applyDeselectedStyle(items[i]);
+            }
+        }
+
+        if (currentIndex === 0) {
+            inputEl.value = savedVal;
+        }
+    }
+
+    function fixList() {
+        if (currentIndex > 0) {
+            var items = suggestBox.querySelectorAll('ol > li');
+            if (items[currentIndex - 1]) {
+                inputEl.value = items[currentIndex - 1].textContent;
+            }
+        }
+        savedVal = inputEl.value;
+        isSelecting = false;
+        suggestBox.style.display = 'none';
+        totalItems = 0;
+    }
+
+    function resize() {
+        var rect = inputEl.getBoundingClientRect();
+        suggestBox.style.top = (rect.top + window.scrollY + inputEl.offsetHeight + 6) + 'px';
+        suggestBox.style.left = (rect.left + window.scrollX) + 'px';
+        suggestBox.style.height = 'auto';
+        suggestBox.style.width = 'auto';
+        if (suggestBox.offsetWidth < inputEl.offsetWidth + adjustWidthVal) {
+            suggestBox.style.width = (inputEl.offsetWidth + adjustWidthVal) + 'px';
+        }
+    }
+
+    // Initialize
+    init(element, options);
+
+    // Keydown handler
+    element.addEventListener('keydown', function(e) {
+        if ((e.keyCode >= 48 && e.keyCode <= 90) ||
+            (e.keyCode >= 96 && e.keyCode <= 105) ||
+            (e.keyCode >= 186 && e.keyCode <= 226) ||
+            e.keyCode === 8 || e.keyCode === 32 || e.keyCode === 46) {
+            isCharInput = true;
+            isSelecting = false;
+        } else if (e.keyCode === 38) {
+            if (suggestBox.style.display !== 'none') {
+                e.preventDefault();
+            }
+            selectlist('up');
+        } else if (e.keyCode === 40) {
+            if (suggestBox.style.display === 'none') {
+                suggest();
+            } else {
+                selectlist('down');
+            }
+        } else if (e.keyCode === 13) {
+            if (isSelecting) {
+                fixList();
+            }
+        }
+    });
+
+    // Keyup handler
+    element.addEventListener('keyup', function(e) {
+        if ((e.keyCode >= 48 && e.keyCode <= 90) ||
+            (e.keyCode >= 96 && e.keyCode <= 105) ||
+            (e.keyCode >= 186 && e.keyCode <= 226) ||
+            e.keyCode === 8 || e.keyCode === 32 || e.keyCode === 46) {
+            isCharInput = true;
+            isSelecting = false;
+        }
+    });
+
+    // Blur handler
+    element.addEventListener('blur', function() {
+        if (!isMouseOverBox) {
+            fixList();
+        }
+    });
+
+    // Polling interval for auto-suggest
+    setInterval(function() {
+        if (throttleCount < 5) {
+            throttleCount = throttleCount + 1;
+        } else {
+            if (inputEl.value !== savedVal) {
+                if (!isSelecting && isCharInput && !isSuggesting) {
+                    suggest();
+                    throttleCount = 0;
+                }
+            }
+        }
+    }, 100);
+}

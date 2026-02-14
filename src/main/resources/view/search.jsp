@@ -11,41 +11,14 @@
 		href="${fe:url('/osdd')}"
 		title="<la:message key="labels.index_osdd_title" />" />
 </c:if>
-<link href="${fe:url('/css/simple/bootstrap.min.css')}" rel="stylesheet"
-	type="text/css" />
 <link href="${fe:url('/css/simple/style.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/simple/font-awesome.min.css')}" rel="stylesheet"
-	type="text/css" />
-<style>
-<!--
-body{padding:0 ;margin:0 ;font-size: small;line-height:1.4;color: #222; font-family: arial,sans-serif;}
-h3{line-height:1.6}
-main{margin-top:1rem;margin-bottom:60px;max-width:632px !important}
-header{background-color:#fafafa;border-bottom:1px solid #ebebeb;z-index:1}
-p.text-truncate{font-size:medium}
-ul.container{margin-top:1rem}
-.textbox{
-	background:#fff;
-	display:flex;
-	border-radius:2px;
-	box-shadow:0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);
-	height:44px;
-	}
-.textbox:hover{box-shadow:0 3px 8px 0 rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.08)}
-#query.form-control{border: none;box-shadow:none}
-#searchButton,#searchOptionsButton{background-color: transparent}
-#searchButton,#searchOptionsButton{box-shadow:0 0px}
-@media(min-width:768px){.ml-md-ex{margin-left:9.375rem !important}}
-
--->
-</style>
 </head>
 <body class="search">
 	<header>
 		<jsp:include page="header.jsp" />
-		<ul class="list-inline container ml-md-ex" >
-			<li class="list-inline-item"><la:message key="labels.searchoptions_menu_sort" /> <a
-				href="#searchOptions" class="badge badge-primary"
+		<ul class="filter-list container ml-md-ex">
+			<li class="filter-item"><la:message key="labels.searchoptions_menu_sort" /> <a
+				href="#searchOptions" class="badge"
 				data-toggle="control-options"> <c:if test="${empty sort}">
 						<la:message key="labels.searchoptions_score" />
 					</c:if> <c:if test="${sort=='score.desc'}">
@@ -78,13 +51,13 @@ ul.container{margin-top:1rem}
 						<la:message key="labels.search_result_sort_multiple" />
 					</c:if>
 			</a></li>
-			<li class="list-inline-item"><la:message key="labels.searchoptions_menu_num" /> <a
-				href="#searchOptions" class="badge badge-primary"
+			<li class="filter-item"><la:message key="labels.searchoptions_menu_num" /> <a
+				href="#searchOptions" class="badge"
 				data-toggle="control-options"> <la:message
 						key="labels.searchoptions_num" arg0="${f:h(num)}" />
 			</a></li>
-			<li class="list-inline-item"><la:message key="labels.searchoptions_menu_lang" /> <a
-				href="#searchOptions" class="badge badge-primary"
+			<li class="filter-item"><la:message key="labels.searchoptions_menu_lang" /> <a
+				href="#searchOptions" class="badge"
 				data-toggle="control-options"> <c:if test="${empty lang}">
 						<la:message key="labels.searchoptions_all" />
 					</c:if> <c:if test="${!empty lang}">
@@ -96,8 +69,8 @@ ul.container{margin-top:1rem}
 					</c:if>
 			</a></li>
 			<c:if test="${displayLabelTypeItems}">
-				<li class="list-inline-item"><la:message key="labels.searchoptions_menu_labels" /> <a
-					href="#searchOptions" class="badge badge-primary"
+				<li class="filter-item"><la:message key="labels.searchoptions_menu_labels" /> <a
+					href="#searchOptions" class="badge"
 					data-toggle="control-options"> <c:if
 							test="${empty fields.label}">
 							<la:message key="labels.searchoptions_all" />
@@ -114,23 +87,21 @@ ul.container{margin-top:1rem}
 	</header>
 	<main id="content" class="container ml-md-ex">
 		<c:if test="${f:h(allRecordCount) != 0}">
-			<div id="subheader" class="row">
-				<div class="col" style="color:#808080">
-					<p>
-						<la:message key="labels.search_result_status"
-							arg0="${f:h(displayQuery)}" arg1="${f:h(allRecordCount)}"
-							arg2="${f:h(currentStartRecordNumber)}"
-							arg3="${f:h(currentEndRecordNumber)}" />
-						<c:if test="${execTime!=null}">
-							<la:message key="labels.search_result_time" arg0="${f:h(execTime)}" />
-						</c:if>
-					</p>
-					<c:if test="${! empty sdh }">
-					<p>
-						<la:message key="labels.similar_doc_result_status" />
-					</p>
+			<div id="subheader" style="color:#808080">
+				<p>
+					<la:message key="labels.search_result_status"
+						arg0="${f:h(displayQuery)}" arg1="${f:h(allRecordCount)}"
+						arg2="${f:h(currentStartRecordNumber)}"
+						arg3="${f:h(currentEndRecordNumber)}" />
+					<c:if test="${execTime!=null}">
+						<la:message key="labels.search_result_time" arg0="${f:h(execTime)}" />
 					</c:if>
-				</div>
+				</p>
+				<c:if test="${! empty sdh }">
+				<p>
+					<la:message key="labels.similar_doc_result_status" />
+				</p>
+				</c:if>
 			</div>
 			<c:if test="${partialResults}">
 				<div class="alert">
@@ -141,29 +112,25 @@ ul.container{margin-top:1rem}
 			</c:if>
 		</c:if>
 		<c:if test="${!empty popularWords}">
-			<div class="row">
-				<div class="col">
-					<p class="text-truncate">
-						<la:message key="labels.search_popular_word_word" />
-						<c:forEach var="item" varStatus="s" items="${popularWords}">
-							<c:if test="${s.index < 3}">
-								<la:link
-									href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
-							</c:if>
-							<c:if test="${3 <= s.index}">
-								<la:link styleClass="d-none d-sm-inline"
-									href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
-							</c:if>
-						</c:forEach>
-					</p>
-				</div>
+			<div>
+				<p class="text-truncate">
+					<la:message key="labels.search_popular_word_word" />
+					<c:forEach var="item" varStatus="s" items="${popularWords}">
+						<c:if test="${s.index < 3}">
+							<la:link
+								href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
+						</c:if>
+						<c:if test="${3 <= s.index}">
+							<la:link styleClass="hidden-mobile"
+								href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
+						</c:if>
+					</c:forEach>
+				</p>
 			</div>
 		</c:if>
 		<c:forEach var="item" varStatus="s" items="${relatedContents}">
-			<div class="row">
-				<div class="col">
-					${item}
-				</div>
+			<div>
+				${item}
 			</div>
 		</c:forEach>
 		<c:choose>
@@ -175,75 +142,70 @@ ul.container{margin-top:1rem}
 			</c:otherwise>
 		</c:choose>
 		<c:if test="${!empty relatedQueries}">
-			<div class="row">
-				<div class="col">
-					<p class="text-truncate" >
-						<la:message key="labels.search_related_queries" />
-						<c:forEach var="item" varStatus="s" items="${relatedQueries}">
-							<c:if test="${s.index < 3}">
-								<la:link
-									href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
-							</c:if>
-							<c:if test="${3 <= s.index}">
-								<la:link styleClass="d-none d-sm-inline"
-									href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
-							</c:if>
-						</c:forEach>
-					</p>
-				</div>
+			<div>
+				<p class="text-truncate">
+					<la:message key="labels.search_related_queries" />
+					<c:forEach var="item" varStatus="s" items="${relatedQueries}">
+						<c:if test="${s.index < 3}">
+							<la:link
+								href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
+						</c:if>
+						<c:if test="${3 <= s.index}">
+							<la:link styleClass="hidden-mobile"
+								href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
+						</c:if>
+					</c:forEach>
+				</p>
 			</div>
 		</c:if>
 		<c:if test="${f:h(allRecordCount) != 0}">
-			<div class="row">
-				<nav id="subfooter" class="mx-auto ">
+			<div>
+				<nav id="subfooter" style="margin:0 auto">
 					<ul class="pagination">
 						<c:if test="${existPrevPage}">
-							<li class="page-item"><la:link styleClass="page-link" aria-label="Previous"
+							<li class="page-num"><la:link aria-label="Previous"
 									href="/search/prev?q=${f:u(q)}&pn=${f:u(currentPageNumber)}&num=${f:u(pageSize)}&sdh=${f:u(fe:sdh(sdh))}${fe:pagingQuery(null)}${fe:facetQuery()}${fe:geoQuery()}">
 									<span aria-hidden="true">&laquo;</span>
-									<span class="sr-only"><la:message key="labels.prev_page" /></span>
+									<span class="visually-hidden"><la:message key="labels.prev_page" /></span>
 								</la:link></li>
 						</c:if>
 						<c:if test="${!existPrevPage}">
-							<li class="page-item disabled" aria-label="Previous"><a class="page-link" href="#">
-								<span aria-hidden="true">&laquo;</span> <span class="sr-only"><la:message
+							<li class="page-num disabled" aria-label="Previous"><a href="#">
+								<span aria-hidden="true">&laquo;</span> <span class="visually-hidden"><la:message
 										key="labels.prev_page" /></span>
 							</a></li>
 						</c:if>
 						<c:forEach var="pageNumber" varStatus="s" items="${pageNumberList}">
 							<li
 								<c:choose>
-									<c:when test="${pageNumber < currentPageNumber - 2 || pageNumber > currentPageNumber + 2}">class="page-item d-none d-sm-inline"</c:when>
-									<c:when test="${pageNumber == currentPageNumber && pageNumber >= currentPageNumber - 2 && pageNumber <= currentPageNumber + 2}">class="page-item active"</c:when>
-									<c:otherwise>class="page-item"</c:otherwise>
+									<c:when test="${pageNumber < currentPageNumber - 2 || pageNumber > currentPageNumber + 2}">class="page-num hidden-mobile"</c:when>
+									<c:when test="${pageNumber == currentPageNumber && pageNumber >= currentPageNumber - 2 && pageNumber <= currentPageNumber + 2}">class="page-num active"</c:when>
+									<c:otherwise>class="page-num"</c:otherwise>
 								</c:choose>>
-								<la:link styleClass="page-link"
+								<la:link
 									href="/search/move?q=${f:u(q)}&pn=${f:u(pageNumber)}&num=${f:u(pageSize)}&sdh=${f:u(fe:sdh(sdh))}${fe:pagingQuery(null)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(pageNumber)}</la:link>
 							</li>
 						</c:forEach>
 						<c:if test="${existNextPage}">
-							<li class="page-item"><la:link styleClass="page-link" aria-label="Next"
+							<li class="page-num"><la:link aria-label="Next"
 									href="/search/next?q=${f:u(q)}&pn=${f:u(currentPageNumber)}&num=${f:u(pageSize)}&sdh=${f:u(fe:sdh(sdh))}${fe:pagingQuery(null)}${fe:facetQuery()}${fe:geoQuery()}">
-									<span class="sr-only"><la:message key="labels.next_page" /></span>
+									<span class="visually-hidden"><la:message key="labels.next_page" /></span>
 									<span aria-hidden="true">&raquo;</span>
 								</la:link></li>
 						</c:if>
 						<c:if test="${!existNextPage}">
-							<li class="page-item disabled" aria-label="Next"><a class="page-link" href="#"> <span
-									class="sr-only"><la:message key="labels.next_page" /></span> <span
+							<li class="page-num disabled" aria-label="Next"><a href="#"> <span
+									class="visually-hidden"><la:message key="labels.next_page" /></span> <span
 									aria-hidden="true">&raquo;</span>
 							</a></li>
 						</c:if>
 					</ul>
 				</nav>
 			</div>
-		</c:if> 
+		</c:if>
 	</main>
 	<jsp:include page="footer.jsp" />
 	<input type="hidden" id="contextPath" value="${contextPath}" />
-	<script type="text/javascript"
-		src="${fe:url('/js/simple/jquery-3.7.1.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/simple/bootstrap.min.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/suggestor.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/search.js')}"></script>
 </body>

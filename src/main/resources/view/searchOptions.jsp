@@ -3,10 +3,10 @@
 	<la:message key="labels.search_options" />
 </h3>
 <div>
-	<fieldset class="form-group">
+	<fieldset class="form-field">
 		<label for="contentNum"><la:message key="labels.index_num" /></label>
 		<la:select property="num" styleId="numSearchOption"
-			styleClass="form-control">
+			styleClass="form-input">
 			<option value="10">
 				<la:message key="labels.search_result_select_num" />
 			</option>
@@ -18,10 +18,10 @@
 			<la:option value="100">100</la:option>
 		</la:select>
 	</fieldset>
-	<fieldset class="form-group">
+	<fieldset class="form-field">
 		<label for="contentSort"><la:message key="labels.index_sort" /></label>
 		<la:select property="sort" styleId="sortSearchOption"
-			styleClass="form-control">
+			styleClass="form-input">
 			<option value="">
 				<la:message key="labels.search_result_select_sort" />
 			</option>
@@ -70,21 +70,21 @@
 			</c:if>
 		</la:select>
 	</fieldset>
-	<fieldset class="form-group">
+	<fieldset class="form-field">
 		<label for="contentLang"><la:message key="labels.index_lang" /></label>
 		<la:select property="lang" styleId="langSearchOption" multiple="true"
-			styleClass="form-control">
+			styleClass="form-input">
 			<c:forEach var="item" items="${langItems}">
 				<la:option value="${f:u(item.value)}">${f:h(item.label)}</la:option>
 			</c:forEach>
 		</la:select>
 	</fieldset>
 	<c:if test="${displayLabelTypeItems}">
-		<fieldset class="form-group">
+		<fieldset class="form-field">
 			<label for="contentLabelType"><la:message
 					key="labels.index_label" /></label>
 			<la:select property="fields.label" styleId="labelTypeSearchOption"
-				multiple="true" styleClass="form-control">
+				multiple="true" styleClass="form-input">
 				<c:forEach var="item" items="${labelTypeItems}">
 					<la:option value="${f:u(item.value)}">${f:h(item.label)}</la:option>
 				</c:forEach>
