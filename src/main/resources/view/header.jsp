@@ -32,30 +32,20 @@
 				<ul class="nav-list hidden-mobile">
 					<c:choose>
 						<c:when test="${!empty username && username != 'guest'}">
-							<li class="nav-item">
-								<div class="dropdown">
-									<a class="nav-link dropdown-toggle" data-toggle="dropdown"
-										href="#" role="button" aria-haspopup="true"
-										aria-expanded="false">
-										<span>${username}</span>
-									</a>
-									<div class="dropdown-menu" aria-labelledby="userMenu">
-										<c:if test="${editableUser == true}">
-											<la:link href="/profile" styleClass="dropdown-item">
-												<la:message key="labels.profile" />
-											</la:link>
-										</c:if>
-										<c:if test="${adminUser == true}">
-											<la:link href="/admin" styleClass="dropdown-item">
-												<la:message key="labels.administration" />
-											</la:link>
-										</c:if>
-										<la:link href="/logout/" styleClass="dropdown-item">
-											<la:message key="labels.logout" />
-										</la:link>
-									</div>
-								</div>
-							</li>
+						<li class="nav-item"><span class="nav-link nav-user">${username}</span></li>
+						<c:if test="${editableUser == true}">
+							<li class="nav-item"><la:link href="/profile" styleClass="nav-link">
+								<la:message key="labels.profile" />
+							</la:link></li>
+						</c:if>
+						<c:if test="${adminUser == true}">
+							<li class="nav-item"><la:link href="/admin" styleClass="nav-link">
+								<la:message key="labels.administration" />
+							</la:link></li>
+						</c:if>
+						<li class="nav-item"><la:link href="/logout/" styleClass="nav-link">
+							<la:message key="labels.logout" />
+						</la:link></li>
 						</c:when>
 						<c:when test="${ pageLoginLink }">
 							<li class="nav-item"><la:link href="/login"
