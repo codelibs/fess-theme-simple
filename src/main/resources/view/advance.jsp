@@ -10,42 +10,27 @@
 		title="<la:message key="labels.index_osdd_title" />"
 	/>
 </c:if>
-<link href="${fe:url('/css/simple/bootstrap.min.css')}" rel="stylesheet" type="text/css" />
 <link href="${fe:url('/css/simple/style.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/simple/font-awesome.min.css')}" rel="stylesheet" type="text/css" />
 </head>
-<style>
-<!--
-body{padding:0 ;margin:0 ;font-size: small;color: #222; font-family: arial,sans-serif;}
-.form-control{border-radius:1px;border:1px solid #d9d9d9;border-top:1px solid #c0c0c0;font-size:13px;min-height:25px;padding:1px 8px;}
-input[type="text"]:focus{box-shadow:none}
--->
-</style>
 <body style="margin:0">
 	<la:form styleClass="form-stacked" action="/search/" method="get" styleId="searchForm">
 		${fe:facetForm()}${fe:geoForm()}
 		<header style="background-color:#eee;min-height:60px">
-			<nav class="navbar navbar-expand-md navbar-light">
+			<nav class="site-header">
 				<div class="container" style="max-width:100%;">
-					<la:link styleClass="navbar-brand d-inline-flex" href="/">
+					<la:link styleClass="site-logo" href="/">
 						<img src="${fe:url('/images/simple/logo-head2.png')}"
-							alt="<la:message key="labels.header_brand_name" />"
-							class="align-items-center" />
+							alt="<la:message key="labels.header_brand_name" />" />
 					</la:link>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
-						aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbar">
-						<ul class="mr-auto"></ul>
-						<ul class="nav navbar-nav">
+					<div class="nav-collapse" id="navbar">
+						<div style="margin-right:auto"></div>
+						<ul class="nav-list">
 							<c:choose>
 								<c:when test="${!empty username && username != 'guest'}">
 									<li class="nav-item">
 										<div class="dropdown">
 											<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-												aria-expanded="false"
-											> <i class="fa fa-fw fa-user"></i>${username}
+												aria-expanded="false">${username}
 											</a>
 											<div class="dropdown-menu" aria-labelledby="userMenu">
 												<c:if test="${editableUser == true}">
@@ -69,13 +54,13 @@ input[type="text"]:focus{box-shadow:none}
 									<li class="nav-item"><la:link href="/login" styleClass="nav-link" role="button" aria-haspopup="true"
 											aria-expanded="false"
 										>
-											<i class="fa fa-fw fa-sign-in"></i>
+											<span aria-hidden="true">&#x2192;</span>
 											<la:message key="labels.login" />
 										</la:link></li>
 								</c:when>
 							</c:choose>
 							<li class="nav-item"><la:link href="/help" styleClass="nav-link help-link">
-									<i class="fa fa-fw fa-question-circle"></i>
+									<span aria-hidden="true">?</span>
 									<la:message key="labels.index_help" />
 								</la:link></li>
 						</ul>
@@ -97,56 +82,44 @@ input[type="text"]:focus{box-shadow:none}
 					suffix="errors.front_suffix"
 				/>
 			</div>
-			<div class="form-group row">
-				<label for="as_q" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="as_q" class="form-label"><la:message
 						key="labels.advance_search_must_queries"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<input class="form-control" type="text" id="as_q" name="as.q" value="${f:h(fe:join(as.q))}" >
-				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
+				<div class="form-input-wrapper">
+					<input class="form-input" type="text" id="as_q" name="as.q" value="${f:h(fe:join(as.q))}" >
 				</div>
 			</div>
-			<div class="form-group row">
-				<label for="as_epq" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="as_epq" class="form-label"><la:message
 						key="labels.advance_search_phrase_query"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<input class="form-control" type="text" id="as_epq" name="as.epq" value="${f:h(fe:join(as.epq))}" >
-				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
+				<div class="form-input-wrapper">
+					<input class="form-input" type="text" id="as_epq" name="as.epq" value="${f:h(fe:join(as.epq))}" >
 				</div>
 			</div>
-			<div class="form-group row">
-				<label for="as_oq" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="as_oq" class="form-label"><la:message
 						key="labels.advance_search_should_queries"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<input class="form-control" type="text" id="as_oq" name="as.oq" value="${f:h(fe:join(as.oq))}">
-				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
+				<div class="form-input-wrapper">
+					<input class="form-input" type="text" id="as_oq" name="as.oq" value="${f:h(fe:join(as.oq))}">
 				</div>
 			</div>
-			<div class="form-group row">
-				<label for="as_nq" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="as_nq" class="form-label"><la:message
 						key="labels.advance_search_not_queries"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<input class="form-control" type="text" id="as_nq" name="as.nq" value="${f:h(fe:join(as.nq))}">
-				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
+				<div class="form-input-wrapper">
+					<input class="form-input" type="text" id="as_nq" name="as.nq" value="${f:h(fe:join(as.nq))}">
 				</div>
 			</div>
-			<div class="form-group row">
-				<label for="contentNum" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="contentNum" class="form-label"><la:message
 						key="labels.index_num"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<la:select property="num" styleId="numSearchOption" styleClass="form-control">
+				<div class="form-input-wrapper">
+					<la:select property="num" styleId="numSearchOption" styleClass="form-input">
 						<option value="">
 							<la:message key="labels.search_result_select_num" />
 						</option>
@@ -158,16 +131,13 @@ input[type="text"]:focus{box-shadow:none}
 						<la:option value="100">100</la:option>
 					</la:select>
 				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
-				</div>
 			</div>
-			<div class="form-group row">
-				<label for="contentSort" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="contentSort" class="form-label"><la:message
 						key="labels.index_sort"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<la:select property="sort" styleId="sortSearchOption" styleClass="form-control">
+				<div class="form-input-wrapper">
+					<la:select property="sort" styleId="sortSearchOption" styleClass="form-input">
 						<option value="">
 							<la:message key="labels.search_result_select_sort" />
 						</option>
@@ -216,48 +186,39 @@ input[type="text"]:focus{box-shadow:none}
 						</c:if>
 					</la:select>
 				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
-				</div>
 			</div>
-			<div class="form-group row">
-				<label for="contentLang" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="contentLang" class="form-label"><la:message
 						key="labels.index_lang"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<la:select property="lang" styleId="langSearchOption" multiple="true" styleClass="form-control">
+				<div class="form-input-wrapper">
+					<la:select property="lang" styleId="langSearchOption" multiple="true" styleClass="form-input">
 						<c:forEach var="item" items="${langItems}">
 							<la:option value="${f:u(item.value)}">${f:h(item.label)}</la:option>
 						</c:forEach>
 					</la:select>
 				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
-				</div>
 			</div>
 			<c:if test="${displayLabelTypeItems}">
-				<div class="form-group row">
-					<label for="contentLabelType" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+				<div class="form-field form-row">
+					<label for="contentLabelType" class="form-label"><la:message
 							key="labels.index_label"
 						/></label>
-					<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-						<la:select property="fields.label" styleId="labelTypeSearchOption" multiple="true" styleClass="form-control">
+					<div class="form-input-wrapper">
+						<la:select property="fields.label" styleId="labelTypeSearchOption" multiple="true" styleClass="form-input">
 							<c:forEach var="item" items="${labelTypeItems}">
 								<la:option value="${f:u(item.value)}">${f:h(item.label)}</la:option>
 							</c:forEach>
 						</la:select>
 					</div>
-					<div class="col-lg-4 d-none d-lg-flex align-items-center">
-						<!-- TODO -->
-					</div>
 				</div>
 			</c:if>
-			<div class="form-group row">
-				<label for="as_timestamp" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="as_timestamp" class="form-label"><la:message
 						key="labels.advance_search_timestamp"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<select id="as_timestamp" name="as.timestamp" class="form-control">
+				<div class="form-input-wrapper">
+					<select id="as_timestamp" name="as.timestamp" class="form-input">
 						<option value=""><la:message key="labels.advance_search_timestamp_default" /></option>
 						<option value="[now-1d/d TO *]"
 							<c:if test="${as.timestamp.contains('[now-1d/d TO *]')}">selected</c:if>
@@ -273,16 +234,13 @@ input[type="text"]:focus{box-shadow:none}
 						><la:message key="labels.advance_search_timestamp_pastyear" /></option>
 					</select>
 				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
-				</div>
 			</div>
-			<div class="form-group row">
-				<label for="as_filetype" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="as_filetype" class="form-label"><la:message
 						key="labels.advance_search_filetype"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<select id="as_filetype" name="as.filetype" class="form-control">
+				<div class="form-input-wrapper">
+					<select id="as_filetype" name="as.filetype" class="form-input">
 						<option value=""><la:message key="labels.advance_search_filetype_default" /></option>
 						<option value="html" <c:if test="${as.filetype.contains('html')}">selected</c:if>><la:message
 								key="labels.advance_search_filetype_html"
@@ -301,16 +259,13 @@ input[type="text"]:focus{box-shadow:none}
 							/></option>
 					</select>
 				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
-				</div>
 			</div>
-			<div class="form-group row">
-				<label for="as_occt" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="as_occt" class="form-label"><la:message
 						key="labels.advance_search_occt"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<select id="as_occt" name="as.occt" class="form-control">
+				<div class="form-input-wrapper">
+					<select id="as_occt" name="as.occt" class="form-input">
 						<option value=""><la:message key="labels.advance_search_occt_default" /></option>
 						<option value="allintitle" <c:if test="${as.occt.contains('allintitle')}">selected</c:if>><la:message
 								key="labels.advance_search_occt_allintitle"
@@ -320,25 +275,18 @@ input[type="text"]:focus{box-shadow:none}
 							/></option>
 					</select>
 				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
-				</div>
 			</div>
-			<div class="form-group row">
-				<label for="as_sitesearch" class="col-lg-3 col-md-4 col-sm-5 col-12 col-form-label"><la:message
+			<div class="form-field form-row">
+				<label for="as_sitesearch" class="form-label"><la:message
 						key="labels.advance_search_sitesearch"
 					/></label>
-				<div class="col-lg-5 col-md-8 col-sm-7 col-xs-6">
-					<input class="form-control" type="text" id="as_sitesearch" name="as.sitesearch" value="${f:h(fe:join(as.sitesearch))}">
-				</div>
-				<div class="col-lg-4 d-none d-lg-flex align-items-center">
-					<!-- TODO -->
+				<div class="form-input-wrapper">
+					<input class="form-input" type="text" id="as_sitesearch" name="as.sitesearch" value="${f:h(fe:join(as.sitesearch))}">
 				</div>
 			</div>
 
-			<div class="row">
-				<button type="submit" name="search" id="searchButton" class="btn btn-primary mx-auto">
-					<i class="fa fa-search"></i>
+			<div>
+				<button type="submit" name="search" id="searchButton" class="btn btn-primary" style="margin:0 auto;display:block">
 					<la:message key="labels.index_form_search_btn" />
 				</button>
 			</div>
@@ -346,8 +294,6 @@ input[type="text"]:focus{box-shadow:none}
 		<jsp:include page="footer.jsp" />
 	</la:form>
 	<input type="hidden" id="contextPath" value="${contextPath}" />
-	<script type="text/javascript" src="${fe:url('/js/simple/jquery-3.7.1.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/simple/bootstrap.min.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/suggestor.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/advance.js')}"></script>
 </body>

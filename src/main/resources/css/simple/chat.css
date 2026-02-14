@@ -1,5 +1,124 @@
-/* Chat Page Styles - Bootstrap 4 Compatible with Atlassian Design System */
-/* Adapted for Simple theme */
+/* Chat Page Styles - Standalone (no Bootstrap dependency) */
+/* Adapted for Simple theme with Atlassian Design System influences */
+
+/* ============================================
+   Utility classes (Bootstrap replacements)
+   ============================================ */
+.hidden {
+    display: none !important;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================================
+   Base button styles (standalone, no Bootstrap)
+   ============================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    background: none;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Send button */
+.btn-send {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 8px 8px 0;
+    min-width: 48px;
+    background: linear-gradient(135deg, #0052cc 0%, #0747a6 100%);
+    border: none;
+    color: white;
+    padding: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.btn-send:hover:not(:disabled) {
+    background: linear-gradient(135deg, #0747a6 0%, #003d99 100%);
+    transform: translateY(-1px);
+}
+
+.btn-send:disabled {
+    background: #dfe1e6;
+    color: #a5adba;
+    cursor: not-allowed;
+}
+
+/* New chat button */
+.btn-new-chat {
+    padding: 0.375rem 0.75rem;
+    background-color: transparent;
+    color: #42526e;
+    border: 1px solid #dfe1e6;
+    border-radius: 4px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.btn-new-chat:hover {
+    background-color: #f4f5f7;
+    border-color: #0052cc;
+    color: #0052cc;
+}
+
+/* Retry button */
+.btn-retry {
+    padding: 0.25rem 0.625rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.btn-retry:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Dismiss / close button */
+.btn-dismiss {
+    padding: 0.25rem 0.5rem;
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.25rem;
+    line-height: 1;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.btn-dismiss:hover {
+    opacity: 1;
+}
 
 /* ============================================
    Status Lozenge (ADS-style badge)
@@ -43,29 +162,88 @@
 }
 
 /* ============================================
-   Chat card container
+   Chat card container (replaces .card.shadow-sm)
    ============================================ */
-.card.shadow-sm {
+.chat-card {
     display: flex;
     flex-direction: column;
     height: calc(100vh - 150px);
     max-height: calc(100vh - 150px);
     border-radius: 8px;
     border: 1px solid #dfe1e6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
 }
 
-.card-header {
+.chat-card-header {
     background-color: #fafbfc;
     border-bottom: 1px solid #dfe1e6;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px 8px 0 0;
 }
 
-.card-body.p-0 {
+.chat-card-body {
     flex: 1;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     min-height: 0;
     position: relative;
+    padding: 0;
+}
+
+.chat-card-footer {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #dfe1e6;
+    background-color: #fafbfc;
+    border-radius: 0 0 8px 8px;
+}
+
+/* ============================================
+   Chat input group (replaces .input-group)
+   ============================================ */
+.chat-input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+.chat-input-group .chat-textarea {
+    flex: 1;
+    min-width: 0;
+}
+
+.chat-input-group .btn-send {
+    flex-shrink: 0;
+}
+
+/* Chat textarea (replaces .form-control on textarea) */
+.chat-textarea {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: #172b4d;
+    background-color: white;
+    border: 1px solid #dfe1e6;
+    border-radius: 8px 0 0 8px;
+    resize: none;
+    max-height: 150px;
+    overflow-y: auto;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: inherit;
+}
+
+.chat-textarea:focus {
+    border-color: #0052cc;
+    box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.2);
+    outline: none;
+}
+
+.chat-textarea::placeholder {
+    color: #8993a4;
 }
 
 /* ============================================
@@ -586,14 +764,6 @@
 
 .error-banner-dismiss {
     flex-shrink: 0;
-    opacity: 0.8;
-    color: white;
-    text-shadow: none;
-}
-
-.error-banner-dismiss:hover {
-    opacity: 1;
-    color: white;
 }
 
 /* ============================================
@@ -602,41 +772,6 @@
 .input-wrapper {
     display: flex;
     flex-direction: column;
-}
-
-.card-footer #chatInput {
-    resize: none;
-    max-height: 150px;
-    overflow-y: auto;
-    border-radius: 8px 0 0 8px;
-    border: 1px solid #dfe1e6;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card-footer #chatInput:focus {
-    border-color: #0052cc;
-    box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.2);
-}
-
-.card-footer #sendBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0 8px 8px 0;
-    min-width: 48px;
-    background: linear-gradient(135deg, #0052cc 0%, #0747a6 100%);
-    border: none;
-    transition: all 0.2s ease;
-}
-
-.card-footer #sendBtn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #0747a6 0%, #003d99 100%);
-    transform: translateY(-1px);
-}
-
-.card-footer #sendBtn:disabled {
-    background: #dfe1e6;
-    cursor: not-allowed;
 }
 
 .input-footer {
@@ -667,12 +802,83 @@
 }
 
 /* ============================================
+   Code blocks in messages
+   ============================================ */
+.message-content pre {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    padding: 0.875rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 0.75rem 0;
+    font-size: 0.8125rem;
+    border: 1px solid #2d2d2d;
+}
+
+.message-content code {
+    background-color: rgba(9, 30, 66, 0.08);
+    padding: 0.125rem 0.375rem;
+    border-radius: 3px;
+    font-family: 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', monospace;
+    font-size: 0.875em;
+}
+
+.message-content pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* ============================================
+   List and paragraph styles in messages
+   ============================================ */
+.message-content ul,
+.message-content ol {
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+}
+
+.message-content li {
+    margin: 0.25rem 0;
+}
+
+.message-content p {
+    margin: 0.5rem 0;
+}
+
+.message-content p:first-child {
+    margin-top: 0;
+}
+
+.message-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ============================================
+   Accessibility focus styles
+   ============================================ */
+.btn:focus-visible,
+.suggestion-chip:focus-visible,
+.source-card:focus-visible,
+.message-action-btn:focus-visible {
+    outline: 2px solid #0052cc;
+    outline-offset: 2px;
+}
+
+/* ============================================
    Responsive adjustments
    ============================================ */
 @media (max-width: 768px) {
-    .card.shadow-sm {
+    .chat-card {
         height: calc(100vh - 120px);
         max-height: calc(100vh - 120px);
+        border-radius: 0;
+    }
+
+    .chat-card-header {
+        border-radius: 0;
+    }
+
+    .chat-card-footer {
         border-radius: 0;
     }
 
@@ -745,7 +951,7 @@
         gap: 0.125rem;
     }
 
-    .card-footer #sendBtn {
+    .btn-send {
         min-width: 44px;
     }
 }
@@ -766,80 +972,4 @@
     .suggestion-chip {
         width: 100%;
     }
-}
-
-/* ============================================
-   Code blocks in messages
-   ============================================ */
-.message-content pre {
-    background-color: #1e1e1e;
-    color: #d4d4d4;
-    padding: 0.875rem;
-    border-radius: 6px;
-    overflow-x: auto;
-    margin: 0.75rem 0;
-    font-size: 0.8125rem;
-    border: 1px solid #2d2d2d;
-}
-
-.message-content code {
-    background-color: rgba(9, 30, 66, 0.08);
-    padding: 0.125rem 0.375rem;
-    border-radius: 3px;
-    font-family: 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', monospace;
-    font-size: 0.875em;
-}
-
-.message-content pre code {
-    background-color: transparent;
-    padding: 0;
-}
-
-/* ============================================
-   List and paragraph styles in messages
-   ============================================ */
-.message-content ul,
-.message-content ol {
-    margin: 0.5rem 0;
-    padding-left: 1.25rem;
-}
-
-.message-content li {
-    margin: 0.25rem 0;
-}
-
-.message-content p {
-    margin: 0.5rem 0;
-}
-
-.message-content p:first-child {
-    margin-top: 0;
-}
-
-.message-content p:last-child {
-    margin-bottom: 0;
-}
-
-/* ============================================
-   Accessibility focus styles
-   ============================================ */
-.btn:focus-visible,
-.suggestion-chip:focus-visible,
-.source-card:focus-visible,
-.message-action-btn:focus-visible {
-    outline: 2px solid #0052cc;
-    outline-offset: 2px;
-}
-
-/* Screen reader only */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
 }

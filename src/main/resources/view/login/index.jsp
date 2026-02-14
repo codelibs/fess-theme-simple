@@ -5,17 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title><la:message key="labels.login.title" /></title>
-<link href="${fe:url('/css/admin/bootstrap.min.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/admin/font-awesome.min.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/admin/adminlte.min.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/admin/skins/skin-blue.min.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/admin/style.css')}" rel="stylesheet" type="text/css" />
-<!--[if lt IE 9]>
-<script src="${fe:url('/css/admin/html5shiv.min.js')}"></script>
-<script src="${fe:url('/css/admin/respond.min.js')}"></script>
-<![endif]-->
+<link href="${fe:url('/css/simple/style.css')}" rel="stylesheet" type="text/css" />
 </head>
-<body class="hold-transition login-page">
+<body class="login-page">
 	<div class="login-box">
 		<div class="login-logo">
 			<la:link href="/">
@@ -23,7 +15,6 @@
 					alt="<la:message key="labels.header_brand_name" />" />
 			</la:link>
 		</div>
-		<!-- /.login-logo -->
 		<div class="notification">${notification}</div>
 		<div class="login-box-body">
 			<p class="login-box-msg">
@@ -37,43 +28,32 @@
 				<la:errors />
 			</div>
 			<la:form styleId="login" method="post">
-				<div class="form-group has-feedback">
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-						<c:set var="ph_username">
-							<la:message key="labels.login.placeholder_username" />
-						</c:set>
-						<la:text property="username" styleId="username"
-							class="form-control" placeholder="${ph_username}" />
-					</div>
+				<div class="form-field">
+					<c:set var="ph_username">
+						<la:message key="labels.login.placeholder_username" />
+					</c:set>
+					<la:text property="username" styleId="username"
+						class="form-input" placeholder="${ph_username}" />
 				</div>
-				<div class="form-group has-feedback">
-					<div class="input-group">
-						<span class="input-group-addon"><i class="fa fa-lock fa-fw"></i></span>
-						<c:set var="ph_password">
-							<la:message key="labels.login.placeholder_password" />
-						</c:set>
-						<la:password property="password" class="form-control"
-							placeholder="${ph_password}" />
-					</div>
+				<div class="form-field">
+					<c:set var="ph_password">
+						<la:message key="labels.login.placeholder_password" />
+					</c:set>
+					<la:password property="password" class="form-input"
+						placeholder="${ph_password}" />
 				</div>
 				<div class="text-center">
 					<button type="submit" name="login"
-						class="btn btn-primary btn-block btn-flat"
+						class="btn btn-primary btn-block"
 						value="<la:message key="labels.login"/>">
-						<i class="fa fa-sign-in"></i>
+						<span aria-hidden="true">&#x2192;</span>
 						<la:message key="labels.login" />
 					</button>
 				</div>
 			</la:form>
 		</div>
-		<!-- /.login-box-body -->
 	</div>
-	<!-- /.login-box -->
 	<input type="hidden" id="contextPath" value="${contextPath}" />
-	<script type="text/javascript"
-		src="${fe:url('/js/admin/jquery-3.7.1.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/admin/bootstrap.min.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/login.js')}"></script>
 </body>
 </html>

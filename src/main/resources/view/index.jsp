@@ -10,70 +10,25 @@
 		href="${fe:url('/osdd')}"
 		title="<la:message key="labels.index_osdd_title" />" />
 </c:if>
-<link href="${fe:url('/css/simple/bootstrap.min.css')}" rel="stylesheet"
-	type="text/css" />
 <link href="${fe:url('/css/simple/style.css')}" rel="stylesheet" type="text/css" />
-<link href="${fe:url('/css/simple/font-awesome.min.css')}" rel="stylesheet"
-	type="text/css" />
-<style>
-<!--
-
-body{padding:0;margin:0;font-size: small;line-height:1.4;color: #222;}
-button.btn{
-    background-color: #f2f2f2;
-    border: 1px solid #f2f2f2;
-    border-radius: 2px;
-    color: #757575;
-    cursor: default;
-    font-family: arial,sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    margin: 11px 4px;
-    min-width: 54px;
-    padding: 0 16px;
-    text-align: center;
-    height: 36px;
-    line-height: 27px;
-	}
-button.btn:hover{
-    background-color: #f8f8f8;
-    border: 1px solid #c6c6c6;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-    color: #222;
-	}
-button.btn:focus{box-shadow: none;border: 1px solid #4d90fe;}
-.textbox{
-	background:#fff;
-	display:flex;
-	border-radius:2px;
-	box-shadow:0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08);
-	height:44px;
-	}
-.textbox:hover{box-shadow:0 3px 8px 0 rgba(0,0,0,0.2),0 0 0 1px rgba(0,0,0,0.08)}
--->
-</style>
 </head>
 <body>
 	<la:form action="search" method="get" styleId="searchForm">
 		${fe:facetForm()}${fe:geoForm()}
 		<header>
-			<nav class="navbar navbar-expand-md navbar-light bg-white">
+			<nav class="site-header">
 				<div id="content" class="container" style="max-width:100%">
-					<div class="navbar-brand"></div>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
-							aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-					<div class="collapse navbar-collapse" id="navbar">
-						<div class="mr-auto"></div>
-						<ul class="nav navbar-nav">
+					<div class="site-logo"></div>
+					<div class="nav-collapse" id="navbar">
+						<div style="margin-right:auto"></div>
+						<ul class="nav-list">
 							<c:choose>
 								<c:when test="${!empty username && username != 'guest'}">
 									<li class="nav-item">
 										<div class="dropdown">
 											<a class="nav-link dropdown-toggle" data-toggle="dropdown"
 												href="#" role="button" aria-haspopup="true"
-												aria-expanded="false"> <i class="fa fa-fw fa-user"></i>${username}
+												aria-expanded="false">${username}
 											</a>
 											<div class="dropdown-menu" aria-labelledby="userMenu">
 												<c:if test="${editableUser == true}">
@@ -97,14 +52,14 @@ button.btn:focus{box-shadow: none;border: 1px solid #4d90fe;}
 									<li class="nav-item"><la:link href="/login"
 											styleClass="nav-link" role="button" aria-haspopup="true"
 											aria-expanded="false">
-											<i class="fa fa-fw fa-sign-in"></i>
+											<span aria-hidden="true">&#x2192;</span>
 											<la:message key="labels.login" />
 										</la:link></li>
 								</c:when>
 							</c:choose>
 							<li class="nav-item"><la:link href="/help"
 									styleClass="nav-link help-link">
-									<i class="fa fa-fw fa-question-circle"></i>
+									<span aria-hidden="true">?</span>
 									<la:message key="labels.index_help" />
 								</la:link></li>
 						</ul>
@@ -116,86 +71,80 @@ button.btn:focus{box-shadow: none;border: 1px solid #4d90fe;}
 			<div class="container">
 				<jsp:include page="searchOptions.jsp" />
 				<div>
-					<button type="button" class="btn " id="searchOptionsClearButton">
+					<button type="button" class="btn" id="searchOptionsClearButton">
 						<la:message key="labels.search_options_clear" />
 					</button>
-					<la:link href="/search/advance" styleClass="btn btn-info">
-						<i class="fa fa-cog"></i>
+					<la:link href="/search/advance" styleClass="btn btn-secondary">
+						<span aria-hidden="true">&#x2699;</span>
 						<la:message key="labels.advance" />
 					</la:link>
-					<button type="button" class="btn pull-right"
+					<button type="button" class="btn" style="margin-left:auto"
 						data-toggle="control-options" data-target="#searchOptions"
 						id="searchOptionsCloseButton">
-						<i class="fa fa-times-circle"></i>
+						<span aria-hidden="true">&#x2715;</span>
 						<la:message key="labels.search_options_close" />
 					</button>
 				</div>
 			</div>
 		</div>
 		<main class="container">
-			<div class="row">
-				<div class="col text-center searchFormBox">
-					<h1 class="mainLogo">
-						<img src="${fe:url('/images/simple/logo.png')}"
-							alt="<la:message key="labels.index_title" />" />
-					</h1>
-					<div class="notification">${notification}</div>
-					<div>
-						<la:info id="msg" message="true">
-							<div class="alert alert-info">${msg}</div>
-						</la:info>
-						<la:errors header="errors.front_header"
-							footer="errors.front_footer" prefix="errors.front_prefix"
-							suffix="errors.front_suffix" />
-					</div>
-					<fieldset>
-						<div class="clearfix">
-							<div class="mx-auto col-10 col-sm-8 col-md-8 col-lg-6 textbox">
-								<la:text styleClass="query form-control center-block"
-									property="q" size="50" maxlength="1000" styleId="contentQuery"
-									autocomplete="off" style="height:44px;border: none; box-shadow:none" />
-							</div>
-						</div>
-						<c:if test="${!empty popularWords}">
-							<div class="clearfix">
-								<p class="text-truncate">
-									<la:message key="labels.search_popular_word_word" />
-									<c:forEach var="item" varStatus="s" items="${popularWords}">
-										<c:if test="${s.index < 3}">
-											<la:link
-												href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
-										</c:if>
-										<c:if test="${3 <= s.index}">
-											<la:link styleClass="d-none d-sm-inline"
-												href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
-										</c:if>
-									</c:forEach>
-								</p>
-							</div>
-						</c:if>
-						<div class="clearfix searchButtonBox ">
-							<button type="submit" name="search" id="searchButton"
-								class="btn ">
-								<i class="fa fa-search"></i>
-								<la:message key="labels.index_form_search_btn" />
-							</button>
-							<button type="button" class="btn "
-								data-toggle="control-options" data-target="#searchOptions"
-								id="searchOptionsButton" >
-								<i class="fa fa-cog"></i>
-								<la:message key="labels.index_form_option_btn" />
-							</button>
-						</div>
-					</fieldset>
+			<div class="search-form-box text-center">
+				<h1 class="mainLogo">
+					<img src="${fe:url('/images/simple/logo.png')}"
+						alt="<la:message key="labels.index_title" />" />
+				</h1>
+				<div class="notification">${notification}</div>
+				<div>
+					<la:info id="msg" message="true">
+						<div class="alert alert-info">${msg}</div>
+					</la:info>
+					<la:errors header="errors.front_header"
+						footer="errors.front_footer" prefix="errors.front_prefix"
+						suffix="errors.front_suffix" />
 				</div>
+				<fieldset>
+					<div class="clearfix">
+						<div class="textbox" style="margin:0 auto;max-width:500px">
+							<la:text styleClass="query search-input"
+								property="q" size="50" maxlength="1000" styleId="contentQuery"
+								autocomplete="off" />
+						</div>
+					</div>
+					<c:if test="${!empty popularWords}">
+						<div class="clearfix">
+							<p class="text-truncate">
+								<la:message key="labels.search_popular_word_word" />
+								<c:forEach var="item" varStatus="s" items="${popularWords}">
+									<c:if test="${s.index < 3}">
+										<la:link
+											href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
+									</c:if>
+									<c:if test="${3 <= s.index}">
+										<la:link styleClass="hidden-mobile"
+											href="/search?q=${f:u(item)}${fe:facetQuery()}${fe:geoQuery()}">${f:h(item)}</la:link>
+									</c:if>
+								</c:forEach>
+							</p>
+						</div>
+					</c:if>
+					<div class="clearfix searchButtonBox">
+						<button type="submit" name="search" id="searchButton"
+							class="btn">
+							<la:message key="labels.index_form_search_btn" />
+						</button>
+						<button type="button" class="btn"
+							data-toggle="control-options" data-target="#searchOptions"
+							id="searchOptionsButton">
+							<span aria-hidden="true">&#x2699;</span>
+							<la:message key="labels.index_form_option_btn" />
+						</button>
+					</div>
+				</fieldset>
 			</div>
 		</main>
 		<jsp:include page="footer.jsp" />
 	</la:form>
 	<input type="hidden" id="contextPath" value="${contextPath}" />
-	<script type="text/javascript"
-		src="${fe:url('/js/simple/jquery-3.7.1.min.js')}"></script>
-	<script type="text/javascript" src="${fe:url('/js/simple/bootstrap.min.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/suggestor.js')}"></script>
 	<script type="text/javascript" src="${fe:url('/js/simple/index.js')}"></script>
 </body>
